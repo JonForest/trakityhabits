@@ -1,17 +1,19 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { Button } from '@storybook/react/demo';
+import { addDecorator } from '@storybook/react';
+import { withInfo } from '@storybook/addon-info';
 import CheckboxSlider from '.'
+
+addDecorator(withInfo);
+
+const notes = `
+# CheckboxSlider
+A checkbox with a slider UI.
+`
 
 export default {
   title: 'CheckboxSlider',
-  parameters: {notes: 'default notes'}
+  parameters: { notes }
 };
 
 export const checkbox = () => <CheckboxSlider onSelect={action('checked')} />;
-
-checkbox.story = {
-  parameters: {
-    notes: "This is a *note*"
-  }
-}
