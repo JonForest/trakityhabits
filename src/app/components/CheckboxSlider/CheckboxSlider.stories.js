@@ -1,10 +1,6 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { addDecorator } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
 import CheckboxSlider from '.'
-
-addDecorator(withInfo);
 
 const notes = `
 # CheckboxSlider
@@ -16,4 +12,4 @@ export default {
   parameters: { notes }
 };
 
-export const checkbox = () => <CheckboxSlider onSelect={action('checked')} />;
+export const normal = () => <CheckboxSlider isCompleted={false} onSelect={action('checked')} />;
