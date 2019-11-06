@@ -1,14 +1,19 @@
 import React from 'react';
 import './App.css';
-import Habits from './app/Habits';
+import { BrowserRouter } from 'react-router-dom';
+import Router from './app/routes/Router';
+import ScrollToTop from './app/components/ScrollToTop';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Habits />
-      </header>
-    </div>
+    <BrowserRouter>
+      <ScrollToTop />
+      <div className="App">
+        <header className="App-header">
+          <Router />
+        </header>
+      </div>
+    </BrowserRouter>
   );
 }
 
