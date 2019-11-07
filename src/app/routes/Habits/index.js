@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Habits() {
+export default function Habits({ match: { params: { date }}}) {
 	const [habits, updateHabits] = useState([])
 
 
