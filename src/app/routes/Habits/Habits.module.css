@@ -1,0 +1,26 @@
+.habits {
+  display: flex;
+  flex-direction: column;
+}
+
+.habit_padding:not(:last-child) {
+  margin-bottom: 50px;
+}
+
+.date_slider {
+  width: 50%;
+  border-bottom: 3px solid #FF9B05;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+.date_slider::after {
+  content: "";
+  display: inline-block;
+  height: 17px;
+  width: 17px;
+  border-radius: 50%;
+  background: #FF9B05;
+  background-color: #FF9B05;;
+  transform: translateY(14px);
+}

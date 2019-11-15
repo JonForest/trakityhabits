@@ -1,27 +1,44 @@
 import React, { useState, useEffect } from 'react';
+import Habit from '../../components/Habit';
+import Header from '../../components/Header';
+import styles from './Habits.module.css';
 
 export default function Habits({ match: { params: { date }}}) {
-	const [habits, updateHabits] = useState([])
+	const [habits, updateHabits] = useState([]);
 
+	function updateHabit (habitId, isComplete) {
+		// todo: update habit in Firebase, should get picked up by firebase live query
+	};
 
 	useEffect(() => {
 		updateHabits([{
-			name: 'Dumb-bell curls'
+			id: 1,
+			description: 'Dumb-bell curls',
+			detail: 'Use two 15kg weights, standing, one in each hand'
 		}, {
-			name: 'Press-ups'
+			id: 2,
+			description: 'Press-ups',
+			detail: '3 sets of 15 press-ups'
 		}, {
-			name: 'sit-ups'
+			id: 3,
+			description: 'sit-ups',
+			detail: '3 sets of 20 sit-ups'
 		}])
-	}, [updateHabits])
+	}, [updateHabits]);
 
 	return (
 		<>
-			<h1>Exercises</h1>
-			{habits.map(habit => (
-				<h2>{habit.name}</h2>
-			))}
+			<Header />
+			<div className={styles.date_slider}></div>
+			<div className={styles.habits}>
+				{habits.map(habit => (
+					<div key={habit.id} className={styles.habit_padding}>
+						<Habit habit={habit} completeHabit={updateHabit} className={styles.habit_padding}/>
+					</div>
+				))}
+			</div>
 		</>
-	)
+	);
 }
 
 // Question: how does the app work out which day has been populated or not?
