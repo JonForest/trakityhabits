@@ -1,5 +1,7 @@
 import { configure, addDecorator } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
+//  Add a link to the compiled tailwind
+import '../src/styles/tailwind.css';
 
 addDecorator(withInfo); 
 

@@ -3,6 +3,7 @@
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Tailwind configured using https://blog.logrocket.com/create-react-app-and-tailwindcss/
 
 ## Available Scripts
 
