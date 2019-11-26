@@ -1,5 +1,5 @@
 #Actions
-
+* Use this https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup for the monitoring of Firebase live query
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

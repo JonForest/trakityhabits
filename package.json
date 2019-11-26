@@ -13,8 +13,8 @@
   "scripts": {
     "build:style":"tailwind build src/styles/index.css -o src/styles/tailwind.css",
     "start": "yarn build:style && react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "build": "yarn build:style && react-scripts build",
+    "test": "yarn build:style && react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "yarn build:style && start-storybook -p 6006",
     "build-storybook": "yarn build:style && build-storybook"

@@ -12,4 +12,8 @@ export default {
   parameters: { notes }
 };
 
-export const normal = () => <Header />;
+export const normal = () => (
+  <div style={{width: '80%'}}>
+    <Header />
+  </div>
+);
