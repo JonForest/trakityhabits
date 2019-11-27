@@ -1,14 +1,13 @@
-.habits {
+/* .habits {
   display: flex;
   flex-direction: column;
-}
+} */
 
 .habit_padding:not(:last-child) {
   margin-bottom: 50px;
 }
 
 .date_slider {
-  width: 50%;
   border-bottom: 3px solid #FF9B05;
   margin-bottom: 50px;
   position: relative;

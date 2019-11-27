@@ -29,13 +29,17 @@ export default function Habits({ match: { params: { date }}}) {
 	return (
 		<>
 			<Header />
-			<div className={styles.date_slider}></div>
-			<div className={styles.habits}>
-				{habits.map(habit => (
-					<div key={habit.id} className={styles.habit_padding}>
-						<Habit habit={habit} completeHabit={updateHabit} className={styles.habit_padding}/>
+			<div className="flex justify-center mt-6">
+				<div>
+					{/* <div className={styles.date_slider}></div> */}
+					<div className="flex flex-col">
+						{habits.map(habit => (
+							<div key={habit.id} className="mb-6">
+								<Habit habit={habit} completeHabit={updateHabit} />
+							</div>
+						))}
 					</div>
-				))}
+				</div>
 			</div>
 		</>
 	);

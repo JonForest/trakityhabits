@@ -1,8 +1,13 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
+import Header from '../../components/Header';
 
 export default function Dashboard() {
   console.log('Dashboard');
   return (
-    <h1 class="text-orange-900">This is the dashboard</h1>
+    <>
+      <Header />
+      <Link to="/2019-10-20">Temp habits link</Link>
+    </>
   )
 }

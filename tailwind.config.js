@@ -7,6 +7,7 @@ module.exports = {
       // wide: '0.025em',
       // wider: '0.05em',
       // widest: '0.1em',
+      'mobile-title': '0.2em',
       title: '0.5em'
     },
   },

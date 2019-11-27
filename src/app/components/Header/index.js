@@ -9,7 +9,7 @@ export default function Header () {
     <header className="bg-teal-800">
       <div className="flex items-center justify-between px-4 py-2">
         <div className="text-white">
-          <h1 className="font-sans tracking-title text-4xl">Trakity</h1>
+          <h1 className="font-sans tracking-mobile-title lg:tracking-title text-2xl lg:text-4xl">Trakity Habits</h1>
         </div>
 
         <div>

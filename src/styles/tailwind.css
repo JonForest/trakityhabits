@@ -11048,6 +11048,10 @@ video {
   letter-spacing: 0;
 }
 
+.tracking-mobile-title {
+  letter-spacing: 0.2em;
+}
+
 .tracking-title {
   letter-spacing: 0.5em;
 }
@@ -21791,6 +21795,10 @@ video {
 
   .sm\:tracking-normal {
     letter-spacing: 0;
+  }
+
+  .sm\:tracking-mobile-title {
+    letter-spacing: 0.2em;
   }
 
   .sm\:tracking-title {
@@ -32539,6 +32547,10 @@ video {
     letter-spacing: 0;
   }
 
+  .md\:tracking-mobile-title {
+    letter-spacing: 0.2em;
+  }
+
   .md\:tracking-title {
     letter-spacing: 0.5em;
   }
@@ -43285,6 +43297,10 @@ video {
     letter-spacing: 0;
   }
 
+  .lg\:tracking-mobile-title {
+    letter-spacing: 0.2em;
+  }
+
   .lg\:tracking-title {
     letter-spacing: 0.5em;
   }
@@ -54029,6 +54045,10 @@ video {
 
   .xl\:tracking-normal {
     letter-spacing: 0;
+  }
+
+  .xl\:tracking-mobile-title {
+    letter-spacing: 0.2em;
   }
 
   .xl\:tracking-title {
