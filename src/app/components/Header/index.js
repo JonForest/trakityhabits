@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
-export default function Header () {
+export default function Header ({className}) {
   // todo: replace the menu button and close state with svgs
   // todo: review https://tailwindcss.com/course/making-the-navbar-responsive to see if I want to do this
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="bg-teal-800">
+    <header className={`${className} bg-teal-800`}>
       <div className="flex items-center justify-between px-4 py-2">
         <div className="text-white">
           <h1 className="font-sans tracking-mobile-title lg:tracking-title text-2xl lg:text-4xl">Trakity Habits</h1>

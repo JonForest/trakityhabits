@@ -11048,6 +11048,14 @@ video {
   letter-spacing: 0;
 }
 
+.tracking-wider {
+  letter-spacing: 0.05em;
+}
+
+.tracking-widest {
+  letter-spacing: 0.1em;
+}
+
 .tracking-mobile-title {
   letter-spacing: 0.2em;
 }
@@ -11373,6 +11381,10 @@ video {
 
 .z-auto {
   z-index: auto;
+}
+
+html, body, #root {
+  height: 100%;
 }
 
 @media (min-width: 640px) {
@@ -21795,6 +21807,14 @@ video {
 
   .sm\:tracking-normal {
     letter-spacing: 0;
+  }
+
+  .sm\:tracking-wider {
+    letter-spacing: 0.05em;
+  }
+
+  .sm\:tracking-widest {
+    letter-spacing: 0.1em;
   }
 
   .sm\:tracking-mobile-title {
@@ -32547,6 +32567,14 @@ video {
     letter-spacing: 0;
   }
 
+  .md\:tracking-wider {
+    letter-spacing: 0.05em;
+  }
+
+  .md\:tracking-widest {
+    letter-spacing: 0.1em;
+  }
+
   .md\:tracking-mobile-title {
     letter-spacing: 0.2em;
   }
@@ -43297,6 +43325,14 @@ video {
     letter-spacing: 0;
   }
 
+  .lg\:tracking-wider {
+    letter-spacing: 0.05em;
+  }
+
+  .lg\:tracking-widest {
+    letter-spacing: 0.1em;
+  }
+
   .lg\:tracking-mobile-title {
     letter-spacing: 0.2em;
   }
@@ -54045,6 +54081,14 @@ video {
 
   .xl\:tracking-normal {
     letter-spacing: 0;
+  }
+
+  .xl\:tracking-wider {
+    letter-spacing: 0.05em;
+  }
+
+  .xl\:tracking-widest {
+    letter-spacing: 0.1em;
   }
 
   .xl\:tracking-mobile-title {

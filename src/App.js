@@ -7,10 +7,8 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <div className="App">
-        <header className="App-header">
-          <Router />
-        </header>
+      <div className="h-full">
+        <Router />
       </div>
     </BrowserRouter>
   );
