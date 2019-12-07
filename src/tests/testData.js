@@ -1,9 +1,8 @@
 import {getFormattedDate} from '../utils';
 
-
 export function summaryData(numberOfDays, maxHabitsPerDay=3, minHabitsPerDay=3) {
   if (!numberOfDays) throw new Error('Must provide "numberOfDays" parameter to "summaryData" call');
-  
+
   const today = new Date();
   const daysData = [];
 
@@ -17,9 +16,6 @@ export function summaryData(numberOfDays, maxHabitsPerDay=3, minHabitsPerDay=3) 
   }
   return daysData;
 };
-
-
-
 
 function randomNumberInRange(inclusiveMax, inclusiveMin=0) {
   const workingMax = (inclusiveMax + 1) - inclusiveMin;
