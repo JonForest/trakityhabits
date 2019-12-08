@@ -1,5 +1,6 @@
 #Actions
 * Figure out where and how to handle missing dates
+* Update the test data with the new format
 * Use this https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup for the monitoring of Firebase live query
 * https://firebase.google.com/docs/firestore/manage-data/enable-offline?authuser=0
 

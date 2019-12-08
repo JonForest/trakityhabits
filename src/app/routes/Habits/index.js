@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
+import db from '../../../fire';
 import Habit from '../../components/Habit';
 import Header from '../../components/Header';
 
@@ -7,24 +8,37 @@ export default function Habits({ match: { params: { date }}}) {
 	const [habits, updateHabits] = useState([]);
 
 	function updateHabit (habitId, isComplete) {
-		// todo: update habit in Firebase, should get picked up by firebase live query
+		db.collection('days').where('date', '==', date).limit(1).get().then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				const day = doc.data();
+				// Note: used .some here as better supported than .find for IE; though honestly, it's a nasty looking hack
+				day.habits.some(habit => {
+					if (habit.habit === habitId) { //todo: change to habit.id
+						habit.achieved = isComplete;
+						return true; 
+					} else return false;
+				});
+				db.collection('days').doc(doc.id).update({
+					habits: day.habits
+				});
+			});
+		});
 	};
 
 	useEffect(() => {
-		updateHabits([{
-			id: 1,
-			description: 'Dumb-bell curls',
-			detail: 'Use two 15kg weights, standing, one in each hand'
-		}, {
-			id: 2,
-			description: 'Press-ups',
-			detail: '3 sets of 15 press-ups'
-		}, {
-			id: 3,
-			description: 'sit-ups',
-			detail: '3 sets of 20 sit-ups'
-		}])
-	}, [updateHabits]);
+		const unsubscribe = db.collection('days').where('date', '==', date).limit(1).onSnapshot(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				// Note, should only ever be one doc
+				const day = doc.data();
+				const habits = day.habits.map(habit => ({
+					id: habit.habit, // todo: removed when changed to habit.id
+					...habit
+				}));
+				updateHabits(habits);
+			});
+		})
+		return unsubscribe;
+	}, [updateHabits, date]);
 
 	return (
 		<div className="flex flex-col items-stretch h-full">
