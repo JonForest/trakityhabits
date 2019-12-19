@@ -47,7 +47,7 @@ export default function Habits({ match: { params: { date }}}) {
 				{/* <div className={styles.date_slider}></div> */}
 				<div className="flex max-w-lg flex-col px-4">
 					{habits.map(habit => (
-						<div key={habit.id} className="mb-6">
+						<div key={habit.id + habit.achieved} className="mb-6">
 							<Habit habit={habit} completeHabit={updateHabit} />
 						</div>
 					))}
