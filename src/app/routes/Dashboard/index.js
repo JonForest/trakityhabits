@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useDebugValue } from "react";
-import { Link } from "react-router-dom";
-import db from "../../../fire";
-import Header from "../../components/Header";
-import Day from "../../components/Day";
-import { getFormattedDate, createToday } from "../../../utils";
+import React, { useState, useEffect, useDebugValue } from 'react';
+import { Link } from 'react-router-dom';
+import db from '../../../fire';
+import Header from '../../components/Header';
+import Day from '../../components/Day';
+import { getFormattedDate, createToday } from '../../../utils';
 
 /**
  * Adds today if not contained within the days array
@@ -13,6 +13,7 @@ import { getFormattedDate, createToday } from "../../../utils";
  * device issue
  * @param {[Object]} days
  */
+// TODO: This process shouls add all missing days from the first day through to today
 async function addTodayIfMissing(days) {
   const today = new Date();
   if (days[0].date !== getFormattedDate(today)) {
@@ -25,22 +26,26 @@ async function addTodayIfMissing(days) {
 export default function Dashboard() {
   const [days, updateDays] = useState([]);
 
+  // TODO: Swtich this to using one of the async-effect libraruies or patterns ('Suspense'?)
   useEffect(() => {
-    const unsubscribe = db.collection("days").orderBy("date", "desc").onSnapshot(async querySnapshot => {
-      const days = [];
-      querySnapshot.forEach(doc => {
-        const data = doc.data();
-        const day = {
-          date: data.date,
-          totalHabits: data.habits.length,
-          achievedHabits: data.habits.filter(habit => habit.achieved).length
-        };
-        days.push(day);
-      });
+    const unsubscribe = db
+      .collection('days')
+      .orderBy('date', 'desc')
+      .onSnapshot(async querySnapshot => {
+        const days = [];
+        querySnapshot.forEach(doc => {
+          const data = doc.data();
+          const day = {
+            date: data.date,
+            totalHabits: data.habits.length,
+            achievedHabits: data.habits.filter(habit => habit.achieved).length
+          };
+          days.push(day);
+        });
 
-      await addTodayIfMissing(days);
-      updateDays(days);
-    });
+        await addTodayIfMissing(days);
+        updateDays(days);
+      });
 
     return unsubscribe;
   }, [updateDays]);
