@@ -4,6 +4,17 @@
 
 @tailwind utilities;
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
+}
+
+.react-tooltip-lite {
+  background: #333;
+  color: white;
+}
+
+.react-tooltip-lite-arrow {
+  border-color: #333;
 }

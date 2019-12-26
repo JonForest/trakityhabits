@@ -11383,8 +11383,19 @@ video {
   z-index: auto;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
+}
+
+.react-tooltip-lite {
+  background: #333;
+  color: white;
+}
+
+.react-tooltip-lite-arrow {
+  border-color: #333;
 }
 
 @media (min-width: 640px) {
