@@ -13,15 +13,25 @@ import { getFormattedDate, createToday } from '../../../utils';
  * device issue
  * @param {[Object]} days
  */
-// TODO: This process shouls add all missing days from the first day through to today
+// TODO: This process should add all missing days from the first day through to today
 async function addTodayIfMissing(days) {
   const today = new Date();
-  if (days[0].date !== getFormattedDate(today)) {
+  if (!days.length || days[0].date !== getFormattedDate(today)) {
     // today is missing, so we need to create it and upload it to Firebase
     // Note: I know this is creating a race-condition, but I believe it should be fine under the circumstances
     createToday();
+    return true;
   }
+  return false;
 }
+
+
+// Add missing days notes
+// do as days.reduce
+// For day = today to first date as |day|
+// if !days.contains(day)
+//    missingdays.push(day)
+// Then add to firebase
 
 export default function Dashboard() {
   const [days, updateDays] = useState([]);
@@ -43,8 +53,7 @@ export default function Dashboard() {
           days.push(day);
         });
 
-        await addTodayIfMissing(days);
-        updateDays(days);
+        if (!await addTodayIfMissing(days)) updateDays(days);
       });
 
     return unsubscribe;
