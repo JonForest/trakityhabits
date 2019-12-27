@@ -35,13 +35,51 @@ export async function getHabitsForDay(numbHabits) {
   return selectedHabits;
 }
 
-export async function createToday() {
-  const today = new Date();
-  const todaysHabits = {
-    date: getFormattedDate(today),
-    habits: await getHabitsForDay(3)
-  };
+function isDateContainedInDays(days, workingDate) {
+  return days.some(day => day.date === workingDate);
+}
 
-  await db.collection('days').add(todaysHabits);
-  return;
+export async function addMissingDays(days) {
+  // find the oldest day; assume array already sorted
+  const today = new Date();
+  if (!days || !days.length) {
+    // No day at all, just add today
+    db.collection('days').add({
+      date: getFormattedDate(today),
+      habits: await getHabitsForDay(3)
+    });
+    return true;
+  }
+
+  let oldestDay = days[days.length - 1].date;
+  let workingDate = new Date(oldestDay);
+  const formattedToday = getFormattedDate(today);
+  const daysToGenerate = [];
+
+  // todo: would rather do this with a date comparison, but the creation times will throw off a predictable comparison
+  while (getFormattedDate(workingDate) !== formattedToday) {
+    if (workingDate > new Date()) throw new Error('Working date is later than today');
+
+    workingDate.setDate(workingDate.getDate() + 1);
+    if (!isDateContainedInDays(days, getFormattedDate(workingDate))) {
+      daysToGenerate.push({
+        date: getFormattedDate(workingDate),
+        habits: await getHabitsForDay(3)
+      });
+    }
+  }
+
+  // Now add all the days we want to add inside a batch event
+  if (daysToGenerate.length) {
+    const batch = db.batch();
+    daysToGenerate.forEach(day => {
+      const dayRef = db.collection('days').doc();
+      batch.set(dayRef, day);
+    });
+    await batch.commit();
+    db.collection('days');
+    return true;
+  }
+
+  return false;
 }

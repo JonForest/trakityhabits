@@ -80,7 +80,3 @@ export default function Habits({
     </div>
   );
 }
-
-// todo: Question: how does the app work out which day has been populated or not?
-// Fetches the keys from the filled in elements (can I just fetch keys without everything? Not sure I can)
-// Or, have a separate 'completed days' array? (Q. can firebase support an array, or is it a random name:val pair?)

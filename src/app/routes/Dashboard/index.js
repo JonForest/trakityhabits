@@ -3,35 +3,7 @@ import { Link } from 'react-router-dom';
 import db from '../../../fire';
 import Header from '../../components/Header';
 import Day from '../../components/Day';
-import { getFormattedDate, createToday } from '../../../utils';
-
-/**
- * Adds today if not contained within the days array
- * Ideally this function should not be on the client, rather on the server. Though being on the client does solve some
- * possible timezone related issues, it also runs the risk of a race-condition adding two of today
- * Some could be mitigated by an async aware useEffect (which exists, see Suspends), but even that won't stop the multi
- * device issue
- * @param {[Object]} days
- */
-// TODO: This process should add all missing days from the first day through to today
-async function addTodayIfMissing(days) {
-  const today = new Date();
-  if (!days.length || days[0].date !== getFormattedDate(today)) {
-    // today is missing, so we need to create it and upload it to Firebase
-    // Note: I know this is creating a race-condition, but I believe it should be fine under the circumstances
-    createToday();
-    return true;
-  }
-  return false;
-}
-
-
-// Add missing days notes
-// do as days.reduce
-// For day = today to first date as |day|
-// if !days.contains(day)
-//    missingdays.push(day)
-// Then add to firebase
+import { getFormattedDate, addMissingDays } from '../../../utils';
 
 export default function Dashboard() {
   const [days, updateDays] = useState([]);
@@ -53,7 +25,7 @@ export default function Dashboard() {
           days.push(day);
         });
 
-        if (!await addTodayIfMissing(days)) updateDays(days);
+        if (!(await addMissingDays(days))) updateDays(days);
       });
 
     return unsubscribe;
