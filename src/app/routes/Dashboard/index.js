@@ -1,14 +1,16 @@
-import React, { useState, useEffect, useDebugValue } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import db from '../../../fire';
 import Header from '../../components/Header';
 import Day from '../../components/Day';
-import { getFormattedDate, addMissingDays } from '../../../utils';
+import { getFormattedDate, addMissingDays, getCurrentStreak, getLongestStreak } from '../../../utils';
 
 export default function Dashboard() {
   const [days, updateDays] = useState([]);
+  const [currentStreak, updateCurrentStreak] = useState(0);
+  const [longestStreak, updateLongestStreak] = useState(0);
 
-  // TODO: Swtich this to using one of the async-effect libraruies or patterns ('Suspense'?)
+  // TODO: Switch this to using one of the async-effect libraries or patterns ('Suspense'?)
   useEffect(() => {
     const unsubscribe = db
       .collection('days')
@@ -25,16 +27,23 @@ export default function Dashboard() {
           days.push(day);
         });
 
-        if (!(await addMissingDays(days))) updateDays(days);
+        if (!(await addMissingDays(days))) {
+          updateDays(days);
+          updateCurrentStreak(getCurrentStreak(days));
+          updateLongestStreak(getLongestStreak(days));
+        }
       });
 
     return unsubscribe;
-  }, [updateDays]);
+  }, [updateDays, updateCurrentStreak]);
 
   return (
     <div className="flex flex-col items-stretch h-full">
       <Header className="flex-shrink-0" />
-      <div className="bg-blue-100 w-full h-64"></div>
+      <div className="bg-blue-100 w-full h-64">
+        Current Streak: {currentStreak}<br/>
+        Longest Streak: {longestStreak}
+      </div>
       <div className="flex justify-center">
         <div className="flex max-w-lg flex-wrap">
           {days.map((day, i) => (

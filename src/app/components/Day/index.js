@@ -13,7 +13,6 @@ export default function Day({ day }) {
 
 function TooltipContent({ date, totalHabits, achievedHabits }) {
   if (!date) return '';
-  console.log(arguments);
 
   return (
     <>

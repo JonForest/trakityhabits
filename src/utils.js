@@ -83,3 +83,38 @@ export async function addMissingDays(days) {
 
   return false;
 }
+
+export function getLongestStreak(days) {
+  if (!days || !days.length) return 0;
+
+  // Loop over array.
+  // Count the streak. Every time a day is not complete then store the current streak if greater than the current highest streak
+  let currentLongestStreak = 0;
+  let workingStreak = 0;
+
+  for (let x = 0; x < days.length; x++) {
+    if (days[x].totalHabits === days[x].achievedHabits) {
+      workingStreak++;
+    } else {
+      if (workingStreak > currentLongestStreak) currentLongestStreak = workingStreak;
+      workingStreak = 0;
+    }
+  }
+
+  return workingStreak > currentLongestStreak ? workingStreak : currentLongestStreak;
+}
+
+export function getCurrentStreak(days) {
+  // Assume days array already organised into most recent first
+  if (!days || !days.length) return 0;
+  console.log(days[0]);
+  let count = 0;
+  let day = days[0];
+  while (day.totalHabits === day.achievedHabits) {
+    count++;
+    if (!days[count]) break;
+    day = days[count];
+  }
+
+  return count;
+}
