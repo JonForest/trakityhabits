@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 import db from '../../../fire';
 import Header from '../../components/Header';
 import Day from '../../components/Day';
+import Progress from './components/Progress';
 import { getFormattedDate, addMissingDays, getCurrentStreak, getLongestStreak } from '../../../utils';
 
 export default function Dashboard() {
   const [days, updateDays] = useState([]);
-  const [currentStreak, updateCurrentStreak] = useState(0);
-  const [longestStreak, updateLongestStreak] = useState(0);
+  const [currentStreak, updateCurrentStreak] = useState(undefined);
+  const [longestStreak, updateLongestStreak] = useState(undefined);
 
   // TODO: Switch this to using one of the async-effect libraries or patterns ('Suspense'?)
   useEffect(() => {
@@ -40,9 +41,8 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col items-stretch h-full">
       <Header className="flex-shrink-0" />
-      <div className="bg-blue-100 w-full h-64">
-        Current Streak: {currentStreak}<br/>
-        Longest Streak: {longestStreak}
+      <div className="bg-blue-100 w-full h-64 flex justify-center">
+        {currentStreak !== undefined && <Progress currentStreak={currentStreak} longestStreak={longestStreak} />}
       </div>
       <div className="flex justify-center">
         <div className="flex max-w-lg flex-wrap">
