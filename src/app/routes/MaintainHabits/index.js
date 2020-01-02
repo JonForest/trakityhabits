@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
+import HabitResult from '../../components/HabitResult';
 import { Link } from 'react-router-dom';
-import db from "../../../fire";
+import db from '../../../fire';
 
 export default function MaintainHabits() {
   const [habits, updateHabits] = useState([]);
@@ -9,10 +10,11 @@ export default function MaintainHabits() {
   useEffect(() => {
     const unsubscribe = db
       .collection('habits')
+      .where('deleted', '==', false)
       .onSnapshot(querySnapshot => {
         const habitsArray = [];
         querySnapshot.forEach(doc => {
-          habitsArray.push({id: doc.id, ...doc.data()});
+          habitsArray.push({ id: doc.id, ...doc.data() });
         });
         updateHabits(habitsArray);
       });
@@ -28,7 +30,9 @@ export default function MaintainHabits() {
       </div>
       <div className="flex-grow flex justify-center mt-6">
         <div className="flex flex-col">
-          {habits.map(habit => <div key={habit.id}>{habit.description}</div>)}
+          {habits.map(habit => (
+            <HabitResult key={habit.id} habit={habit} />
+          ))}
         </div>
       </div>
       <button>Add a new Habit</button>

@@ -16,7 +16,10 @@ export async function getHabitsForDay(numbHabits) {
   const habits = [];
   const selectedHabits = [];
   // Get all possible habits from firebase
-  const querySnapshot = await db.collection('habits').get();
+  const querySnapshot = await db
+    .collection('habits')
+    .where('deleted', '==', false)
+    .get();
   querySnapshot.forEach(habit => {
     habits.push({ habit: habit.id, ...habit.data() });
   });
