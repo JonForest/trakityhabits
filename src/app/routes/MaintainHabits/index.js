@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import HabitResult from '../../components/HabitResult';
-import { Link } from 'react-router-dom';
 import db from '../../../fire';
 
 export default function MaintainHabits() {
@@ -29,13 +29,13 @@ export default function MaintainHabits() {
         <h1 className="text-3xl mb-2 text-center">Maintain Habits</h1>
       </div>
       <div className="flex-grow flex justify-center mt-6">
-        <div className="flex flex-col">
+        <div className="flex max-w-lg flex-col px-4 w-11/12 md:w-4/6 xl:w-2/6">
           {habits.map(habit => (
             <HabitResult key={habit.id} habit={habit} />
           ))}
+          <Link to="/maintain/add">Add a new Habit</Link>
         </div>
       </div>
-      <button>Add a new Habit</button>
       <footer className="w-100 bg-teal-700 flex-shrink-0 flex justify-center py-2">
         <Link
           to="/"
