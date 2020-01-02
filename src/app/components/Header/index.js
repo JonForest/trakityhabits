@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Header({ className }) {
   // todo: replace the menu button and close state with svgs
@@ -25,9 +26,9 @@ export default function Header({ className }) {
 
       {isOpen && (
         <div className="px-2 pb-3">
-          <a href="#" className="block px-2 py-1 text-white font-semibold rounded hover:bg-teal-700">
-            Add habit
-          </a>
+          <Link to="/maintain" className="block px-2 py-1 text-white font-semibold rounded hover:bg-teal-700">
+            Maintain habits
+          </Link>
           <a href="#" className="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-teal-700">
             See metrics
           </a>
