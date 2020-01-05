@@ -13,3 +13,7 @@ const config = {
 // Initialize Firebase
 firebase.initializeApp(config);
 export default firebase.firestore();
+
+export function getUser() {
+  return firebase.auth().currentUser;
+}

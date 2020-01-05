@@ -20,8 +20,7 @@ export default function EditHabit({
         if (doc.exists) updateHabit({ id: doc.id, ...doc.data() });
       });
   }, [updateHabit]);
-  console.log(habitId);
-  //todo: fetch the habit and insert into the HabitForm
+
   return (
     <div className="flex flex-col items-stretch h-full">
       <Header className="flex-shrink-0" />

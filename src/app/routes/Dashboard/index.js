@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import db from '../../../fire';
+import db, { getUser } from '../../../fire';
 import Header from '../../components/Header';
 import Day from '../../components/Day';
 import Progress from './components/Progress';
@@ -10,6 +10,7 @@ export default function Dashboard() {
   const [days, updateDays] = useState([]);
   const [currentStreak, updateCurrentStreak] = useState(undefined);
   const [longestStreak, updateLongestStreak] = useState(undefined);
+  console.log('user: ', getUser());
 
   // TODO: Switch this to using one of the async-effect libraries or patterns ('Suspense'?)
   useEffect(() => {
