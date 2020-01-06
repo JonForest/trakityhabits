@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import db from '../../../fire';
 import Habit from '../../components/Habit';
 import Header from '../../components/Header';
 
-export default function Habits({
-  match: {
-    params: { date }
-  }
-}) {
+export default function Habits() {
+  const { date } = useParams();
+  const history = useHistory();
   const [habits, updateHabits] = useState([]);
 
   function updateHabit(habitId, isComplete) {

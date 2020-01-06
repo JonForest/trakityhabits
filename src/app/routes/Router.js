@@ -32,24 +32,21 @@ export default function Router() {
   return (
     <Switch>
       <Route path="/login" component={Login} />
-      <Route path="/:date(\d{4}-\d{1,2}-\d{1,2})" component={Habits} />
-      <Route exact path="/maintain/add" component={AddHabit} />
-      <Route exact path="/maintain/edit/:habitId" component={EditHabit} />
-      <Route path="/maintain" component={MaintainHabits} />
+      <PrivateRoute path="/:date(\d{4}-\d{1,2}-\d{1,2})">
+        <Habits />
+      </PrivateRoute>
+      <PrivateRoute exact path="/maintain/add">
+        <AddHabit />
+      </PrivateRoute>
+      <PrivateRoute exact path="/maintain/edit/:habitId">
+        <EditHabit />
+      </PrivateRoute>
+      <PrivateRoute path="/maintain">
+        <MaintainHabits />
+      </PrivateRoute>
       <PrivateRoute path="/">
         <Dashboard />
       </PrivateRoute>
     </Switch>
   );
-}
-
-function requireAuth(nextState, replace, next) {
-  console.log('In rewquireAuth');
-  if (!getUser()) {
-    replace({
-      pathname: '/login',
-      state: { nextPathname: nextState.location.pathname }
-    });
-  }
-  next();
 }
