@@ -110,7 +110,7 @@ export function getLongestStreak(days) {
 export function getCurrentStreak(days) {
   // Assume days array already organised into most recent first
   if (!days || !days.length) return 0;
-  console.log(days[0]);
+
   let count = 0;
   let day = days[0];
   while (day.totalHabits === day.achievedHabits) {

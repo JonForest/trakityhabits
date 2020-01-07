@@ -11,14 +11,25 @@ export default function Progress({ currentStreak, longestStreak }) {
 
   // todo: will need to lay this out better once we have consistent layout of the progress
   return (
-    <div className="flex w-20 flex-col w-full">
-      <div>
-        <ProgressBall value={longestStreak} percentage={longestStreakLength} animationDuration={3} />
+    <div className="flex w-20 flex-col w-full text-left mb-8">
+      <div className="flex w-full">
+        <div className="w-1/5 flex-shrink-0 pr-3">Longest streak</div>
+        <div className="w-4/5 flex-grow-0">
+          <ProgressBall value={longestStreak} percentage={longestStreakLength} animationDuration={3} />
+        </div>
       </div>
 
-      <div>
-        <ProgressBall value={currentStreak} percentage={currentStreakLength} animationDuration={currentStreakTime} />
+      <div className="flex w-full content-start">
+        <div className="w-1/5 flex-shrink-0 pr-3">Current streak</div>
+        <div className="w-4/5 flex-grow-0 items-start">
+          <ProgressBall value={currentStreak} percentage={currentStreakLength} animationDuration={currentStreakTime} />
+        </div>
       </div>
     </div>
   );
 }
+
+/**
+ *           <ProgressBall value={longestStreak} percentage={longestStreakLength} animationDuration={3} />
+
+ */

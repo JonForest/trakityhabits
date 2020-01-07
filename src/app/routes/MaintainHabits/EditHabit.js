@@ -10,6 +10,7 @@ export default function EditHabit({
     params: { habitId }
   }
 }) {
+  //todo: convert to router hooks rather than params
   const [habit, updateHabit] = useState();
 
   useEffect(() => {
@@ -19,7 +20,7 @@ export default function EditHabit({
       .then(doc => {
         if (doc.exists) updateHabit({ id: doc.id, ...doc.data() });
       });
-  }, [updateHabit]);
+  }, [updateHabit, habitId]);
 
   return (
     <div className="flex flex-col items-stretch h-full">

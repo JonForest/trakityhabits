@@ -12,10 +12,10 @@ const getUid = function() {
 /**
  * Renders a ProgressBall and animates it forward.
  * The solution is kind of gross, but it is all in css and doesn't need a React animation library to work.
- * TODO: Investigate React animation options at some point in the future 
+ * TODO: Investigate React animation options at some point in the future
  */
-export default function ProgressBall({ value, percentage, animationDuration=3 }) {
-  const width = (percentage / 100) * 30 + 'rem';
+export default function ProgressBall({ value, percentage, animationDuration = 3 }) {
+  const width = (percentage / 100) * 14 + 'rem';
   const uid = getUid();
   const scoreClassName = `score${uid}`;
   const moveleft = `moveleft${uid}`;
@@ -32,9 +32,9 @@ export default function ProgressBall({ value, percentage, animationDuration=3 })
 
           .${scoreClassName} {
             /* Features of circle */
-            border: var(--border) solid blue;
+            border: var(--border) solid #285e61;
             border-radius: 100%;
-            background: lightblue;
+            background: #bee3f8;
             display: inline-block;
             position: relative;
             margin-left: ${width};
@@ -57,7 +57,7 @@ export default function ProgressBall({ value, percentage, animationDuration=3 })
             content: '';
             position: absolute;
             height: var(--border);
-            background: blue;
+            background: #285e61;
             width: calc(${width} + var(--border));
             left: calc(-1 * (${width} + var(--border))); 
             top: 1.1rem;

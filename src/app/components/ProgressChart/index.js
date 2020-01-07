@@ -2,8 +2,6 @@ import React from 'react';
 import Day from '../Day';
 
 export default function ProgressChart({ days }) {
-  console.log(days);
-  const numbRows = Math.ceil(days / 7);
   const startPosition = days[0] ? new Date(days[0].date).getDay() : 7;
   const cells = [];
 
@@ -12,7 +10,7 @@ export default function ProgressChart({ days }) {
     if (cells.length === startPosition) {
       break;
     } else {
-      cells.push(<div class="bg-gray-300 flex-shrink-0 h-6 w-6 m-1"></div>);
+      cells.push(<div className="bg-gray-300 flex-shrink-0 h-6 w-6 m-1"></div>);
     }
   }
 
@@ -39,7 +37,7 @@ export default function ProgressChart({ days }) {
   }, []);
 
   return (
-    <table>
+    <table className="inline">
       <thead>
         <tr>
           <th>S</th>
@@ -52,10 +50,10 @@ export default function ProgressChart({ days }) {
         </tr>
       </thead>
       <tbody>
-        {columns.map(col => (
-          <tr>
-            {col.map(cell => (
-              <td>{cell}</td>
+        {columns.map((col, colIndex) => (
+          <tr key={colIndex}>
+            {col.map((cell, cellIndex) => (
+              <td key={cellIndex}>{cell}</td>
             ))}
           </tr>
         ))}
