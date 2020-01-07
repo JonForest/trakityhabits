@@ -7,11 +7,11 @@ export default function Progress({ currentStreak, longestStreak }) {
   const maxValue = longestStreak > 5 ? longestStreak : 5;
   const longestStreakLength = (longestStreak / maxValue) * 100;
   const currentStreakLength = (currentStreak / maxValue) * 100;
-  const currentStreakTime = 3 - (2 - ((currentStreak / longestStreak) * 2));
+  const currentStreakTime = 3 - (2 - (currentStreak / longestStreak) * 2);
 
   // todo: will need to lay this out better once we have consistent layout of the progress
   return (
-    <div className="flex w-20 flex-col">
+    <div className="flex w-20 flex-col w-full">
       <div>
         <ProgressBall value={longestStreak} percentage={longestStreakLength} animationDuration={3} />
       </div>

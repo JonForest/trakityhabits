@@ -4,6 +4,8 @@ import Day from '../../components/Day';
 import Progress from './components/Progress';
 import Layout from '../../components/Layout';
 import { getFormattedDate, addMissingDays, getCurrentStreak, getLongestStreak } from '../../../utils';
+import ProgressChart from '../../components/ProgressChart';
+import ProgressBall from '../../components/ProgressBall';
 
 export default function Dashboard() {
   const [days, updateDays] = useState([]);
@@ -40,9 +42,16 @@ export default function Dashboard() {
 
   return (
     <Layout title="Dashboard" linkTo={getFormattedDate(new Date())} linkText="See Today">
-      <div className="bg-blue-100 w-full h-64 flex justify-center">
-        {currentStreak !== undefined && <Progress currentStreak={currentStreak} longestStreak={longestStreak} />}
-      </div>
+      {currentStreak !== undefined && <Progress currentStreak={currentStreak} longestStreak={longestStreak} />}
+      <ProgressChart days={days} />
+    </Layout>
+  );
+}
+/**
+ * todo: remove
+ *       {currentStreak !== undefined && <Progress currentStreak={currentStreak} longestStreak={longestStreak} />}
+      <ProgressChart />
+      <div className="bg-blue-100 w-full h-64 flex justify-center"></div>
       <div className="flex justify-center">
         <div className="flex max-w-lg flex-wrap">
           {days.map((day, i) => (
@@ -50,6 +59,5 @@ export default function Dashboard() {
           ))}
         </div>
       </div>
-    </Layout>
-  );
-}
+
+ */
