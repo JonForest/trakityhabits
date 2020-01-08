@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Header from '../../components/Header';
 import HabitForm from './components/HabitForm';
 import db from '../../../fire';
 
-export default function EditHabit({
-  history,
-  match: {
-    params: { habitId }
-  }
-}) {
-  //todo: convert to router hooks rather than params
+export default function EditHabit() {
+  const { habitId } = useParams();
   const [habit, updateHabit] = useState();
 
   useEffect(() => {
@@ -30,7 +25,7 @@ export default function EditHabit({
         <h1 className="text-3xl mb-2 text-center">Edit Habit</h1>
       </div>
       <div className="flex-grow flex justify-center mt-6">
-        <HabitForm history={history} habit={habit} />
+        <HabitForm habit={habit} />
       </div>
       <footer className="w-100 bg-teal-700 flex-shrink-0 flex justify-center py-2">
         <Link

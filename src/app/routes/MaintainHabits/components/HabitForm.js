@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import db from '../../../../fire';
 
-export default function HabitForm({ history, habit = false }) {
+export default function HabitForm({ habit = false }) {
+  const history = useHistory();
   const [required, setRequired] = useState(false);
 
   function saveHabit(e) {
