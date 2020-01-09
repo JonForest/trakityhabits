@@ -2,16 +2,14 @@ import React from 'react';
 import Day from '../Day';
 
 export default function ProgressChart({ days }) {
-  const startPosition = days[0] ? new Date(days[0].date).getDay() : 7;
+  const lastDay = days[0] ? new Date(days[0].date).getDay() : 7;
   const cells = [];
 
   // Pad blank sections at the start
-  while (true) {
-    if (cells.length === startPosition) {
-      break;
-    } else {
-      cells.push(<div className="bg-gray-300 flex-shrink-0 h-6 w-6 m-1"></div>);
-    }
+  console.log(lastDay);
+  while (cells.length < 6 - lastDay) {
+    console.log(cells.length, 6 - lastDay);
+    cells.push(<div className="bg-gray-300 flex-shrink-0 h-6 w-6 m-1"></div>);
   }
 
   days.forEach(day => {
@@ -27,14 +25,16 @@ export default function ProgressChart({ days }) {
   }
 
   // split into rows and columns
-  const columns = cells.reduce((cols, cell, index) => {
-    if (index % 7 === 0) {
-      cols.push([cell]);
-    } else {
-      cols[cols.length - 1].push(cell);
-    }
-    return cols;
-  }, []);
+  const columns = cells
+    .reduce((cols, cell, index) => {
+      if (index % 7 === 0) {
+        cols.push([cell]);
+      } else {
+        cols[cols.length - 1].push(cell);
+      }
+      return cols;
+    }, [])
+    .map(col => col.reverse());
 
   return (
     <table className="inline">
