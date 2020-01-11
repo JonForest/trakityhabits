@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import db from '../../../../fire';
+import db, { getUser } from '../../../../fire';
 
 export default function HabitForm({ habit = false }) {
   const history = useHistory();
@@ -24,12 +24,14 @@ export default function HabitForm({ habit = false }) {
       deleted: false
     };
 
+    const { uid } = getUser();
+
     const savePromise = habit
       ? db
-          .collection('habits')
+          .collection(`users/${uid}/habits`)
           .doc(habit.id)
           .set(newHabit)
-      : db.collection('habits').add(newHabit);
+      : db.collection(`users/${uid}/habits`).add(newHabit);
 
     savePromise.then(() => {
       history.push('/maintain');

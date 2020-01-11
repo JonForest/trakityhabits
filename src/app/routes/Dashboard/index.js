@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import db from '../../../fire';
+import db, { getUser } from '../../../fire';
 import Progress from './components/Progress';
 import Layout from '../../components/Layout';
 import { getFormattedDate, addMissingDays, getCurrentStreak, getLongestStreak } from '../../../utils';
@@ -10,11 +10,13 @@ export default function Dashboard() {
   const [currentStreak, updateCurrentStreak] = useState(undefined);
   const [longestStreak, updateLongestStreak] = useState(undefined);
 
+  const { uid } = getUser();
+
   // TODO: Switch this to using one of the async-effect libraries or patterns ('Suspense'?)
   useEffect(() => {
     const unsubscribe = db
-      .collection('days')
-      .orderBy('date', 'desc') // todo: this is not returning the date correctly as 2020-01-10 is alphabetically higher than 2020-01-09 :-(
+      .collection(`users/${uid}/days`)
+      .orderBy('date', 'desc')
       .onSnapshot(async querySnapshot => {
         const days = [];
         querySnapshot.forEach(doc => {
@@ -35,7 +37,7 @@ export default function Dashboard() {
       });
 
     return unsubscribe;
-  }, [updateDays, updateCurrentStreak]);
+  }, [updateDays, updateCurrentStreak, uid]);
 
   return (
     <Layout title="Dashboard" linkTo={getFormattedDate(new Date())} linkText="See Today">

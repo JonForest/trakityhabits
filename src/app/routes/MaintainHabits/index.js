@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import HabitResult from '../../components/HabitResult';
-import db from '../../../fire';
+import db, { getUser } from '../../../fire';
 
 export default function MaintainHabits() {
   const [habits, updateHabits] = useState([]);
+  const { uid } = getUser();
 
   useEffect(() => {
     const unsubscribe = db
-      .collection('habits')
+      .collection(`users/${uid}/habits`)
       .where('deleted', '==', false)
       .onSnapshot(querySnapshot => {
         const habitsArray = [];
@@ -19,7 +20,7 @@ export default function MaintainHabits() {
         updateHabits(habitsArray);
       });
     return unsubscribe;
-  }, [updateHabits]);
+  }, [updateHabits, uid]);
 
   return (
     <div className="flex flex-col items-stretch h-full">

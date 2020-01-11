@@ -17,9 +17,6 @@ export default function Login({ history }) {
         signInFlow: 'popup',
         callbacks: {
           signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-            // User successfully signed in.
-            // Return type determines whether we continue the redirect automatically
-            // or whether we leave that to developer to handle.
             history.push('/');
           },
           uiShown() {

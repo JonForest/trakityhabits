@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import db from '../../../fire';
+import db, { getUser } from '../../../fire';
 import Habit from '../../components/Habit';
 import Header from '../../components/Header';
 
 export default function Habits() {
+  const { uid } = getUser();
   const { date } = useParams();
   const [habits, updateHabits] = useState([]);
 
   function updateHabit(habitId, isComplete) {
-    db.collection('days')
+    db.collection(`users/${uid}/days`)
       .where('date', '==', date)
       .limit(1)
       .get()
@@ -24,7 +25,7 @@ export default function Habits() {
               return true;
             } else return false;
           });
-          db.collection('days')
+          db.collection(`users/${uid}/days`)
             .doc(doc.id)
             .update({
               habits: day.habits
@@ -35,7 +36,7 @@ export default function Habits() {
 
   useEffect(() => {
     const unsubscribe = db
-      .collection('days')
+      .collection(`users/${uid}/days`)
       .where('date', '==', date)
       .limit(1)
       .onSnapshot(querySnapshot => {
@@ -50,7 +51,7 @@ export default function Habits() {
         });
       });
     return unsubscribe;
-  }, [updateHabits, date]);
+  }, [updateHabits, date, uid]);
 
   return (
     <div className="flex flex-col items-stretch h-full">

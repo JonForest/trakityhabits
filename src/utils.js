@@ -1,4 +1,4 @@
-import db from './fire';
+import db, { getUser } from './fire';
 
 export function getFormattedDate(dateObj) {
   return `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1 + '').padStart(2, '0')}-${(
@@ -15,11 +15,12 @@ export default function getRandomInt(max) {
  * @param {Number} numbHabits
  */
 export async function getHabitsForDay(numbHabits) {
+  const { uid } = getUser();
   const habits = [];
   const selectedHabits = [];
   // Get all possible habits from firebase
   const querySnapshot = await db
-    .collection('habits')
+    .collection(`users/${uid}/habits`)
     .where('deleted', '==', false)
     .get();
   querySnapshot.forEach(habit => {
@@ -44,12 +45,18 @@ function isDateContainedInDays(days, workingDate) {
   return days.some(day => day.date === workingDate);
 }
 
+/**
+ *
+ * @param {Number} days
+ * @returns {Promise<boolean>}
+ */
 export async function addMissingDays(days) {
+  const { uid } = getUser();
   // find the oldest day; assume array already sorted
   const today = new Date();
   if (!days || !days.length) {
     // No day at all, just add today
-    db.collection('days').add({
+    db.collection(`users/${uid}/days`).add({
       date: getFormattedDate(today),
       habits: await getHabitsForDay(3)
     });
@@ -97,7 +104,10 @@ export function getLongestStreak(days) {
   let workingStreak = 0;
 
   for (let x = 0; x < days.length; x++) {
-    if (days[x].totalHabits === days[x].achievedHabits) {
+    // The day must have some habits to form a streak
+    if (days[x].totalHabits === 0) {
+      workingStreak = 0;
+    } else if (days[x].totalHabits === days[x].achievedHabits) {
       workingStreak++;
     } else {
       if (workingStreak > currentLongestStreak) currentLongestStreak = workingStreak;
@@ -114,6 +124,10 @@ export function getCurrentStreak(days) {
 
   let count = 0;
   let day = days[0];
+
+  // Check the first day has some habits
+  if (day.totalHabits === 0) return 0;
+
   while (day.totalHabits === day.achievedHabits) {
     count++;
     if (!days[count]) break;
