@@ -14,7 +14,7 @@ export default function Dashboard() {
   useEffect(() => {
     const unsubscribe = db
       .collection('days')
-      .orderBy('date', 'desc')
+      .orderBy('date', 'desc') // todo: this is not returning the date correctly as 2020-01-10 is alphabetically higher than 2020-01-09 :-(
       .onSnapshot(async querySnapshot => {
         const days = [];
         querySnapshot.forEach(doc => {

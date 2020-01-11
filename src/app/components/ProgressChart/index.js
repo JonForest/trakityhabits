@@ -6,10 +6,8 @@ export default function ProgressChart({ days }) {
   const cells = [];
 
   // Pad blank sections at the start
-  console.log(lastDay);
   while (cells.length < 6 - lastDay) {
-    console.log(cells.length, 6 - lastDay);
-    cells.push(<div className="bg-gray-300 flex-shrink-0 h-6 w-6 m-1"></div>);
+    cells.push(<div className="flex-shrink-0 h-6 w-6 m-1"></div>);
   }
 
   days.forEach(day => {
@@ -20,8 +18,7 @@ export default function ProgressChart({ days }) {
 
   // Pad the end
   for (let x = 0; x < cells.length % 7; x++) {
-    //cells.push(<div class="bg-gray-300 flex-shrink-0 h-6 w-6 m-1"></div>);
-    cells.push(null);
+    cells.push(<div class="flex-shrink-0 h-6 w-6 m-1"></div>);
   }
 
   // split into rows and columns

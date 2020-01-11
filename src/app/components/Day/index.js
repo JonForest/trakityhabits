@@ -2,11 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Tooltip from 'react-tooltip-lite';
 
+function getBackgroundColour(totalHabits, achievedHabits) {
+  if (achievedHabits === 0) return 'bg-gray-300';
+
+  const greenVal = `bg-green-${Math.ceil((achievedHabits / totalHabits) * 7)}00`;
+
+  return greenVal;
+}
+
 export default function Day({ day }) {
-  const backgroundColour = day.totalHabits === day.achievedHabits ? 'bg-green-700' : 'bg-red-400';
   return (
     <Tooltip content={TooltipContent(day)} useHover={false} eventToggle="onClick">
-      <button className={`${backgroundColour} flex-shrink-0 h-6 w-6 m-1`}>&nbsp;</button>
+      <button className={`${getBackgroundColour(day.totalHabits, day.achievedHabits)} flex-shrink-0 h-6 w-6 m-1`}>
+        &nbsp;
+      </button>
     </Tooltip>
   );
 }

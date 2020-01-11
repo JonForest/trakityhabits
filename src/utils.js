@@ -1,7 +1,9 @@
 import db from './fire';
 
 export function getFormattedDate(dateObj) {
-  return `${dateObj.getFullYear()}-${dateObj.getMonth() + 1}-${dateObj.getDate()}`;
+  return `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1 + '').padStart(2, '0')}-${(
+    dateObj.getDate() + ''
+  ).padStart(2, '0')}`;
 }
 
 export default function getRandomInt(max) {
@@ -53,7 +55,6 @@ export async function addMissingDays(days) {
     });
     return true;
   }
-
   let oldestDay = days[days.length - 1].date;
   let workingDate = new Date(oldestDay);
   const formattedToday = getFormattedDate(today);
