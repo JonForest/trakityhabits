@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import db from '../../../fire';
+import db, { getUser } from '../../../fire';
 
 export default function HabitResult({ habit }) {
   function deleteHabit(habit) {
-    db.collection('habits')
+    const { uid } = getUser();
+    db.collection(`users/${uid}/habits`)
       .doc(habit.id)
       .update({
         deleted: true
