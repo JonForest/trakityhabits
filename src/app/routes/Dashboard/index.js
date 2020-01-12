@@ -11,7 +11,6 @@ export default function Dashboard() {
   const [longestStreak, updateLongestStreak] = useState(undefined);
 
   const { uid } = getUser();
-
   // TODO: Switch this to using one of the async-effect libraries or patterns ('Suspense'?)
   useEffect(() => {
     const unsubscribe = db

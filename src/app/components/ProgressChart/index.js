@@ -4,7 +4,6 @@ import Day from '../Day';
 export default function ProgressChart({ days }) {
   const lastDay = days[0] ? new Date(days[0].date).getDay() : 7;
   const cells = [];
-
   // Pad blank sections at the start
   while (cells.length < 6 - lastDay) {
     cells.push(<div className="flex-shrink-0 h-6 w-6 m-1"></div>);

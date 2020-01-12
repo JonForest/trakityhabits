@@ -84,11 +84,10 @@ export async function addMissingDays(days) {
   if (daysToGenerate.length) {
     const batch = db.batch();
     daysToGenerate.forEach(day => {
-      const dayRef = db.collection('days').doc();
+      const dayRef = db.collection(`users/${uid}/days`).doc();
       batch.set(dayRef, day);
     });
     await batch.commit();
-    db.collection('days');
     return true;
   }
 
