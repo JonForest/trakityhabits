@@ -12,7 +12,7 @@ export default function HabitResult({ habit }) {
   }
   return (
     <>
-      <div className="flex mb-6">
+      <div className="flex mb-6 text-left">
         <div className="w-3/4">
           <div className="font-bold">
             <Link to={`/maintain/edit/${habit.id}`}>{habit.description}</Link>
