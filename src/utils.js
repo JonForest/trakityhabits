@@ -14,10 +14,19 @@ export default function getRandomInt(max) {
  * Returns a given number of habits in the format to be added to a new day
  * @param {Number} numbHabits
  */
-export async function getHabitsForDay(numbHabits) {
+export async function getHabitsForDay() {
   const { uid } = getUser();
   const habits = [];
   const selectedHabits = [];
+
+  // Get number of habits from the db
+  const user = await db
+    .collection(`users`)
+    .doc(uid)
+    .get();
+  if (!user.exists) return {};
+  const { numbHabits = 3 } = user.data();
+
   // Get all possible habits from firebase
   const querySnapshot = await db
     .collection(`users/${uid}/habits`)
@@ -28,7 +37,8 @@ export async function getHabitsForDay(numbHabits) {
   });
 
   // Pick the numbHabits randomly
-  for (let x = 0; x < habits.length < numbHabits ? habits.length : numbHabits; x++) {
+  const loopAmount = numbHabits > habits.length ? habits.length : numbHabits;
+  for (let x = 0; x < loopAmount; x++) {
     const index = getRandomInt(habits.length);
     selectedHabits.push({
       achieved: false,
@@ -58,7 +68,7 @@ export async function addMissingDays(days) {
     // No day at all, just add today
     db.collection(`users/${uid}/days`).add({
       date: getFormattedDate(today),
-      habits: await getHabitsForDay(3)
+      habits: await getHabitsForDay()
     });
     return true;
   }
@@ -75,7 +85,7 @@ export async function addMissingDays(days) {
     if (!isDateContainedInDays(days, getFormattedDate(workingDate))) {
       daysToGenerate.push({
         date: getFormattedDate(workingDate),
-        habits: await getHabitsForDay(3)
+        habits: await getHabitsForDay()
       });
     }
   }
