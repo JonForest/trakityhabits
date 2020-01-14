@@ -17,3 +17,7 @@ export default firebase.firestore();
 export function getUser() {
   return firebase.auth().currentUser;
 }
+
+export async function signOut() {
+  return firebase.auth().signOut();
+}

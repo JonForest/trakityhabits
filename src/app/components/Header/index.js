@@ -1,7 +1,20 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { signOut } from '../../../fire';
 
 export default function Header({ className }) {
+  const history = useHistory();
+
+  async function logout(e) {
+    e.preventDefault();
+    try {
+      await signOut();
+      history.push('/login');
+    } catch (err) {
+      console.log('Failed to sign-out due to: ', err);
+    }
+  }
+
   // todo: replace the menu button and close state with svgs
   // todo: review https://tailwindcss.com/course/making-the-navbar-responsive to see if I want to do this
   const [isOpen, setIsOpen] = useState(false);
@@ -29,12 +42,15 @@ export default function Header({ className }) {
           <Link to="/maintain" className="block px-2 py-1 text-white font-semibold rounded hover:bg-teal-700">
             Maintain habits
           </Link>
-          <a href="#" className="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-teal-700">
+          {/** <a href="#" className="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-teal-700">
             See metrics
-          </a>
-          <a href="#" className="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-teal-700">
+          </a>**/}
+          <button
+            className="text-left w-full mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-teal-700"
+            onClick={logout}
+          >
             Logout
-          </a>
+          </button>
         </div>
       )}
     </header>
