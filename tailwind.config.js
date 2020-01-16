@@ -9,8 +9,10 @@ module.exports = {
       widest: '0.1em',
       'mobile-title': '0.2em',
       title: '0.5em'
-    },
+    }
   },
-  variants: {},
-  plugins: [],
-}
+  variants: {
+    margin: ['responsive', 'last']
+  },
+  plugins: []
+};

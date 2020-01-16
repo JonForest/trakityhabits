@@ -61,7 +61,7 @@ export default function Habits() {
         <div className="flex max-w-lg flex-col px-4 w-11/12 md:w-4/6 xl:w-2/6">
           <h1 className="text-3xl mb-8 text-center">{new Date(date).toLocaleDateString('en-NZ')}</h1>
           {habits.map(habit => (
-            <div key={habit.id + habit.achieved} className="mb-6">
+            <div key={habit.id + habit.achieved} className="mb-12 last:mb-6">
               <Habit habit={habit} completeHabit={updateHabit} />
             </div>
           ))}
