@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from 'firebase/app';
 import * as firebaseui from 'firebaseui';
+import '../../../../node_modules/firebaseui/dist/firebaseui.css';
 import Layout from '../../components/Layout';
 
 export default function Login({ history }) {

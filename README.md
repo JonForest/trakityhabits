@@ -1,5 +1,4 @@
 #Actions
-* Fix the Sign in with GoogleGoogle issue
 * Write permissions and deploy instructions into repo
 * https://firebase.google.com/docs/firestore/manage-data/enable-offline?authuser=0
 
