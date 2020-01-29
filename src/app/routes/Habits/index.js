@@ -35,7 +35,7 @@ export default function Habits() {
   }
 
   useEffect(() => {
-    const unsubscribe = db
+    return db
       .collection(`users/${uid}/days`)
       .where('date', '==', date)
       .limit(1)
@@ -50,7 +50,6 @@ export default function Habits() {
           updateHabits(habits);
         });
       });
-    return unsubscribe;
   }, [updateHabits, date, uid]);
 
   return (

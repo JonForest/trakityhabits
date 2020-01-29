@@ -10,16 +10,6 @@ function getBackgroundColour(totalHabits, achievedHabits) {
   return greenVal;
 }
 
-export default function Day({ day }) {
-  return (
-    <Tooltip content={TooltipContent(day)} useHover={false} eventToggle="onClick">
-      <button className={`${getBackgroundColour(day.totalHabits, day.achievedHabits)} flex-shrink-0 h-6 w-6 m-1`}>
-        &nbsp;
-      </button>
-    </Tooltip>
-  );
-}
-
 function TooltipContent({ date, totalHabits, achievedHabits }) {
   if (!date) return '';
 
@@ -41,3 +31,14 @@ function TooltipContent({ date, totalHabits, achievedHabits }) {
     </>
   );
 }
+
+export default function Day({ day }) {
+  return (
+    <Tooltip content={TooltipContent(day)} useHover={false} eventToggle="onClick">
+      <button className={`${getBackgroundColour(day.totalHabits, day.achievedHabits)} flex-shrink-0 h-6 w-6 m-1`}>
+        &nbsp;
+      </button>
+    </Tooltip>
+  );
+}
+
