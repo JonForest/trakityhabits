@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Habits from './Habits';
 import Dashboard from './Dashboard';
 import MaintainHabits from './MaintainHabits';
+import MaintainCategories from './MaintainCategories';
 import AddHabit from './MaintainHabits/AddHabit';
 import EditHabit from './MaintainHabits/EditHabit';
 import Login from './Login';
@@ -43,6 +44,9 @@ export default function Router() {
       </PrivateRoute>
       <PrivateRoute path="/maintain">
         <MaintainHabits />
+      </PrivateRoute>
+      <PrivateRoute path="/categories">
+        <MaintainCategories />
       </PrivateRoute>
       <PrivateRoute path="/">
         <Dashboard />

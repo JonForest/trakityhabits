@@ -42,11 +42,11 @@ export default function Header({ className }) {
           <Link to="/maintain" className="block px-2 py-1 text-white font-semibold rounded hover:bg-teal-700">
             Maintain habits
           </Link>
-          {/** <a href="#" className="mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-teal-700">
-            See metrics
-          </a>**/}
+          <Link to="/categories" className="block px-2 py-1 text-white font-semibold rounded hover:bg-teal-700">
+            Maintain categories
+          </Link>
           <button
-            className="text-left w-full mt-1 block px-2 py-1 text-white font-semibold rounded hover:bg-teal-700"
+            className="text-left w-full block px-2 py-1 text-white font-semibold rounded hover:bg-teal-700"
             onClick={logout}
           >
             Logout
