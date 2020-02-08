@@ -1,39 +1,47 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import Layout from '../../components/Layout';
 import db, { getUser } from '../../../fire';
 
 export default function MaintainCategories() {
-  const [categories, updateCategories] = useState(new Set());
+  const [categories, updateCategories] = useState([]);
   const { uid } = getUser();
 
   useEffect(() => {
     const unsubscribe = db
-      .collection(`users`)
-      .doc(uid)
-      .onSnapshot(doc => {
-        if (!doc.exists) return;
-        const { categories = []} = doc.data();
-        if (categories) updateCategories(new Set(categories));
+      .collection(`users/${uid}/categories`)
+      .onSnapshot(querySnapshot => {
+        const categoriesArray = [];
+        querySnapshot.forEach(doc => {
+          categoriesArray.push(({ ...doc.data() }));
+        })
+        updateCategories(categoriesArray);
       });
     return unsubscribe;
   }, [updateCategories, uid]);
 
+  /**
+   * Add and save a category to the database
+   * @param {Event} e
+   * @returns {boolean}
+   */
   function addCategory(e) {
+
     e.preventDefault();
    let {
       newCategory: { value: newCategory }
     } = e.currentTarget.elements;
 
-    if (!newCategory || !newCategory.trim()) {
+    newCategory = newCategory.trim();
+    if (!newCategory || categories.some(cat => cat.description === newCategory)) {
+      e.currentTarget.newCategory.value = '';
       return false;
     }
 
-    categories.add(newCategory);
+    const catObj = {
+      description: newCategory
+    };
 
-    db.collection('users')
-      .doc(uid)
-      .set({ categories: [...categories] });
+    db.collection(`users/${uid}/categories`).add(catObj);
 
     // Reset the input box back to empty
     e.currentTarget.newCategory.value = '';
@@ -44,8 +52,8 @@ export default function MaintainCategories() {
       <div className="flex justify-center">
         <div className="flex max-w-lg flex-col px-4 w-11/12 md:w-4/6 xl:w-2/6">
 
-          {[...categories].map(category => (
-            <div>{category}</div>
+          {categories.map(category => (
+            <div key={category.description}>{category.description}</div>
           ))}
 
           <form className="flex items-center" onSubmit={addCategory}>
