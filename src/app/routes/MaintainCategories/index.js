@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
+import CategoryResult from '../../components/CategoryResult';
 import db, { getUser } from '../../../fire';
 
 export default function MaintainCategories() {
@@ -12,7 +13,7 @@ export default function MaintainCategories() {
       .onSnapshot(querySnapshot => {
         const categoriesArray = [];
         querySnapshot.forEach(doc => {
-          categoriesArray.push(({ ...doc.data() }));
+          categoriesArray.push(({ id: doc.id, ...doc.data() }));
         })
         updateCategories(categoriesArray);
       });
@@ -53,7 +54,7 @@ export default function MaintainCategories() {
         <div className="flex max-w-lg flex-col px-4 w-11/12 md:w-4/6 xl:w-2/6">
 
           {categories.map(category => (
-            <div key={category.description}>{category.description}</div>
+            <CategoryResult key={category.id} category={category} />
           ))}
 
           <form className="flex items-center" onSubmit={addCategory}>
