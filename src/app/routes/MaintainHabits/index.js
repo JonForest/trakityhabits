@@ -6,32 +6,80 @@ import db, { getUser } from '../../../fire';
 import HabitSettings from './components/HabitSettings';
 
 export default function MaintainHabits() {
-  const [habits, updateHabits] = useState([]);
+  const [uncategorisedHabits, updateUncategorisedHabits] = useState([]);
+  const [categorisedHabits, updateCategorisedHabits] = useState([]);
+  const [categories, updateCategories] = useState([]);
   const { uid } = getUser();
 
+  // Fetch habits and split based on category
   useEffect(() => {
     const unsubscribe = db
       .collection(`users/${uid}/habits`)
       .where('deleted', '==', false)
       .onSnapshot(querySnapshot => {
-        const habitsArray = [];
+        const uncategorisedHabitsArray = [];
+        const habitsObj = {};
         querySnapshot.forEach(doc => {
-          habitsArray.push({ id: doc.id, ...doc.data() });
+          const docData = {id:doc.id, ...doc.data()};
+
+          if (docData.categoryId) {
+            if (habitsObj[docData.categoryId]) habitsObj[docData.categoryId].push(docData);
+            else habitsObj[docData.categoryId] = [docData];
+          } else {
+            uncategorisedHabitsArray.push(docData);
+          }
         });
-        updateHabits(habitsArray);
+
+        updateUncategorisedHabits(uncategorisedHabitsArray);
+        updateCategorisedHabits(habitsObj);
       });
     return unsubscribe;
-  }, [updateHabits, uid]);
+  }, [updateCategorisedHabits, updateUncategorisedHabits, uid]);
+
+  // Fetch categories
+  useEffect(() => {
+    return db
+      .collection(`users/${uid}/categories`)
+      .onSnapshot(querySnapshot => {
+        const categoriesArray = [];
+        querySnapshot.forEach(doc => {
+          categoriesArray.push({id: doc.id, ... doc.data()});
+        })
+        updateCategories(categoriesArray);
+      });
+  }, [updateCategories, uid]);
+
+  /**
+   * From the category id, returns either false if the category is not loaded or present, or the name of the category
+   * @param id
+   * @returns {boolean|*}
+   */
+  function findCategoryName (id) {
+    if (!categories?.length) return false;
+
+    const foundCategory = categories.find(cat => cat.id === id);
+    return foundCategory ? foundCategory.description : false;
+  }
 
   return (
     <Layout title="Maintain Habits" linkText="See dashboard" linkTo="/">
       <div className="flex justify-center">
         <div className="flex max-w-lg flex-col px-4 w-11/12 md:w-4/6 xl:w-2/6">
-          <HabitSettings />
 
-          {habits.map(habit => (
-            <HabitResult key={habit.id} habit={habit} />
+          {Object.keys(categorisedHabits).map(key => (
+            <>
+              {findCategoryName(key) ? <b>{findCategoryName(key)}</b> : ''}
+              {categorisedHabits[key].map(habit => (
+                <HabitResult key={habit.id} habit={habit}/>
+              ))}
+            </>
           ))}
+
+          {uncategorisedHabits?.length && <b>Uncategorised Habits</b>}
+          {uncategorisedHabits.map(habit => (
+            <HabitResult key={habit.id} habit={habit}/>
+          ))}
+          <HabitSettings />
 
           <Link to="/maintain/add">Add a new Habit</Link>
         </div>
