@@ -67,12 +67,12 @@ export default function MaintainHabits() {
         <div className="flex max-w-lg flex-col px-4 w-11/12 md:w-4/6 xl:w-2/6">
 
           {Object.keys(categorisedHabits).map(key => (
-            <>
+            <div key={key}>
               {findCategoryName(key) ? <b>{findCategoryName(key)}</b> : ''}
               {categorisedHabits[key].map(habit => (
                 <HabitResult key={habit.id} habit={habit}/>
               ))}
-            </>
+            </div>
           ))}
 
           {uncategorisedHabits?.length && <b>Uncategorised Habits</b>}

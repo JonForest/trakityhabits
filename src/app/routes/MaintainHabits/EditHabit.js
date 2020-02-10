@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Header from '../../components/Header';
 import HabitForm from './components/HabitForm';
-import db from '../../../fire';
+import db, { getUser } from '../../../fire';
 
 export default function EditHabit() {
   const { habitId } = useParams();
   const [habit, updateHabit] = useState();
+  const { uid } = getUser();
 
   useEffect(() => {
-    db.collection('habits')
+    db.collection(`users/${uid}/habits`)
       .doc(habitId)
       .get()
       .then(doc => {
