@@ -16,7 +16,7 @@ export default function EditHabit() {
       .then(doc => {
         if (doc.exists) updateHabit({ id: doc.id, ...doc.data() });
       });
-  }, [updateHabit, habitId]);
+  }, [updateHabit, habitId, uid]);
 
   return (
     <div className="flex flex-col items-stretch h-full">

@@ -43,7 +43,7 @@ export default function MaintainHabits() {
       .onSnapshot(querySnapshot => {
         const categoriesArray = [];
         querySnapshot.forEach(doc => {
-          categoriesArray.push({id: doc.id, ... doc.data()});
+          categoriesArray.push({id: doc.id, ...doc.data()});
         })
         updateCategories(categoriesArray);
       });
@@ -72,6 +72,8 @@ export default function MaintainHabits() {
               {categorisedHabits[key].map(habit => (
                 <HabitResult key={habit.id} habit={habit}/>
               ))}
+
+              <HabitSettings categoryId={key}/>
             </div>
           ))}
 

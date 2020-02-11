@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import db, { getUser } from '../../../../fire';
 
-export default function HabitSettings() {
+export default function HabitSettings({categoryId = null}) {
   const { uid } = getUser();
   const [numbHabits, setNumberHabits] = useState(3);
+  const ref = useMemo(() => {
+    return categoryId ? db.collection(`users/${uid}/categories`).doc(categoryId) : db.collection(`users`).doc(uid)
+  }, [categoryId]);
 
   useEffect(() => {
-    return db
-      .collection(`users`)
-      .doc(uid)
-      .onSnapshot(doc => {
-        if (!doc.exists) return;
-        const { numbHabits: savedNumberHabits } = doc.data();
-        if (savedNumberHabits) setNumberHabits(savedNumberHabits);
-      });
-  }, [setNumberHabits, uid]);
+    return ref.onSnapshot(doc => {
+      if (!doc.exists) return;
+      const { numbHabits: savedNumberHabits } = doc.data();
+      if (savedNumberHabits) setNumberHabits(savedNumberHabits);
+    });
+  }, [setNumberHabits, uid, categoryId, ref]);
 
   function saveNumbHabits(e) {
     e.preventDefault();
@@ -23,15 +23,13 @@ export default function HabitSettings() {
       e.currentTarget.value = 10;
       return;
     }
-    db.collection('users')
-      .doc(uid)
-      .set({ numbHabits: val });
+    ref.set({ numbHabits: val });
   }
 
   // Need this function to handle the onChange event, which we need if we use the "value" attr in the input
   function habitChange(e) {
     e.preventDefault();
-    setNumberHabits(e.currentTarget.value);
+    setNumberHabits(Number(e.currentTarget.value));
   }
 
   return (

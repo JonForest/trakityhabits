@@ -16,7 +16,7 @@ export default function HabitForm({ habit = false }) {
       .onSnapshot(querySnapshot => {
         const categoriesArray = [];
         querySnapshot.forEach(doc => {
-          categoriesArray.push({id: doc.id, ... doc.data()});
+          categoriesArray.push({id: doc.id, ...doc.data()});
         });
 
         updateCategories(categoriesArray);
@@ -55,7 +55,7 @@ export default function HabitForm({ habit = false }) {
       history.push('/maintain');
     });
   }
-  
+
   return (
     <form className="flex flex-col w-11/12 md:w-4/6 xl:w-2/6" onSubmit={saveHabit}>
       <div className="flex flex-col items-start md:flex-row md:items-center mb-6">
