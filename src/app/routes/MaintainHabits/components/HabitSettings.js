@@ -6,7 +6,7 @@ export default function HabitSettings({categoryId = null}) {
   const [numbHabits, setNumberHabits] = useState(3);
   const ref = useMemo(() => {
     return categoryId ? db.collection(`users/${uid}/categories`).doc(categoryId) : db.collection(`users`).doc(uid)
-  }, [categoryId]);
+  }, [categoryId, uid]);
 
   useEffect(() => {
     return ref.onSnapshot(doc => {

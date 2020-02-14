@@ -10,42 +10,71 @@ export default function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-/**
- * Returns a given number of habits in the format to be added to a new day
- * @param {Number} numbHabits
- */
+
 export async function getHabitsForDay() {
   const { uid } = getUser();
+  let selectedHabits = [];
   const habits = [];
-  const selectedHabits = [];
+  const categories = [];
 
-  // Get number of habits from the db
-  const user = await db
-    .collection(`users`)
+  const habitsPromise = db
+    .collection(`users/${uid}/habits`)
+    .where(`deleted`, `==`, false)
+    .get();
+
+  const categoryPromise = db
+    .collection(`users/${uid}/categories`)
+    .get();
+
+  const userPromise = db
+    .collection('users')
     .doc(uid)
     .get();
-  if (!user.exists) return {};
-  const { numbHabits = 3 } = user.data();
 
-  // Get all possible habits from firebase
-  const querySnapshot = await db
-    .collection(`users/${uid}/habits`)
-    .where('deleted', '==', false)
-    .get();
-  querySnapshot.forEach(habit => {
-    habits.push({ habit: habit.id, ...habit.data() });
+  const [ habitsQuery, categoryQuery, userDoc ] = await Promise.all([habitsPromise, categoryPromise, userPromise]);
+
+  if (!userDoc.exists) return [];
+
+  habitsQuery.forEach(doc => {
+    habits.push({id: doc.id, ...doc.data()});
   });
 
-  // Pick the numbHabits randomly
+  categoryQuery.forEach(doc => {
+    categories.push({id: doc.id, ...doc.data()});
+  });
+
+  categories.forEach(cat => {
+    const catHabits = habits.filter(habit => habit.categoryId === cat.id);
+    selectedHabits = selectedHabits.concat(pickRandomHabits(catHabits, cat.numbHabits));
+  });
+
+  const uncategorisedCount = userDoc.data().numbHabits ?? 3;
+  const uncatHabits = habits.filter(habit => !habit.categoryId);
+  selectedHabits = selectedHabits.concat(pickRandomHabits(uncatHabits, uncategorisedCount));
+
+  return selectedHabits;
+}
+
+/**
+ * Picks a random set of habits from the array of habits passed in, up to the numbHabits specified, or all the habits
+ * whichever is least
+ * @param habits
+ * @param numbHabits
+ * @returns {[]}
+ */
+function pickRandomHabits(habits, numbHabits) {
+  const workingHabits = [...habits];
   const loopAmount = numbHabits > habits.length ? habits.length : numbHabits;
+  const selectedHabits = [];
+
   for (let x = 0; x < loopAmount; x++) {
-    const index = getRandomInt(habits.length);
+    const index = getRandomInt(workingHabits.length);
     selectedHabits.push({
       achieved: false,
-      ...habits[index]
+      ...workingHabits[index]
     });
     // Remove selected element from the array
-    habits.splice(index, 1);
+    workingHabits.splice(index, 1);
   }
 
   return selectedHabits;
@@ -103,6 +132,22 @@ export async function addMissingDays(days) {
 
   return false;
 }
+
+/**
+ * NEW GET HABITS
+ *
+ * Get all category documents
+ * Get the uncategorised amount
+ *
+ * Get all habits
+ * for each category
+ *   filter habits by category
+ *   select number based on category amount
+ *   add to returnHabits array
+ *
+ * for all habits without a category
+ *   select number base on uncategorised amount
+ */
 
 export function getLongestStreak(days) {
   if (!days || !days.length) return 0;
