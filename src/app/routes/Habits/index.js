@@ -3,11 +3,14 @@ import { Link, useParams } from 'react-router-dom';
 import db, { getUser } from '../../../fire';
 import Habit from '../../components/Habit';
 import Header from '../../components/Header';
+import {findCategoryName} from '../../../utils';
 
 export default function Habits() {
   const { uid } = getUser();
   const { date } = useParams();
-  const [habits, updateHabits] = useState([]);
+  const [categories, updateCategories] = useState([]);
+  const [uncategorisedHabits, updateUncategorisedHabits] = useState([]);
+  const [categorisedHabits, updateCategorisedHabits] = useState([]);
 
   function updateHabit(habitId, isComplete) {
     db.collection(`users/${uid}/days`)
@@ -40,15 +43,36 @@ export default function Habits() {
       .limit(1)
       .onSnapshot(querySnapshot => {
         querySnapshot.forEach(doc => {
-          // Note, should only ever be one doc
           const day = doc.data();
-          const habits = day.habits.map(habit => ({
-            ...habit
-          }));
-          updateHabits(habits);
+          const habitsObj = {};
+          const uncategorisedHabitsArray = [];
+
+          day.habits.forEach(habit => {
+            if (habit.categoryId) {
+              if (habitsObj[habit.categoryId]) habitsObj[habit.categoryId].push(habit);
+              else habitsObj[habit.categoryId] = [habit];
+            } else {
+              uncategorisedHabitsArray.push(habit);
+            }
+          })
+          updateUncategorisedHabits(uncategorisedHabitsArray);
+          updateCategorisedHabits(habitsObj);
         });
       });
-  }, [updateHabits, date, uid]);
+  }, [updateUncategorisedHabits, updateCategorisedHabits, date, uid]);
+
+    // Fetch categories
+  useEffect(() => {
+    return db
+      .collection(`users/${uid}/categories`)
+      .onSnapshot(querySnapshot => {
+        const categoriesArray = [];
+        querySnapshot.forEach(doc => {
+          categoriesArray.push({id: doc.id, ...doc.data()});
+        });
+        updateCategories(categoriesArray);
+      });
+  }, [updateCategories, uid]);
 
   return (
     <div className="flex flex-col items-stretch h-full">
@@ -57,7 +81,18 @@ export default function Habits() {
         {/* <div className={styles.date_slider}></div> */}
         <div className="flex max-w-lg flex-col px-4 w-11/12 md:w-4/6 xl:w-2/6">
           <h1 className="text-3xl mb-8 text-center">{new Date(date).toLocaleDateString('en-NZ')}</h1>
-          {habits.map(habit => (
+          {Object.keys(categorisedHabits).map(key => (
+            <div key={key}>
+              {findCategoryName(categories, key) ? <b>{findCategoryName(categories, key)}</b> : ''}
+              {categorisedHabits[key].map(habit => (
+              <div key={habit.id + habit.achieved} className="mb-12 last:mb-6">
+                <Habit habit={habit} completeHabit={updateHabit} />
+              </div>
+              ))}
+            </div>
+          ))}
+          {uncategorisedHabits?.length && <b>Uncategorised Habits</b>}
+          {uncategorisedHabits.map(habit => (
             <div key={habit.id + habit.achieved} className="mb-12 last:mb-6">
               <Habit habit={habit} completeHabit={updateHabit} />
             </div>

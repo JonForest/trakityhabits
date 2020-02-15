@@ -4,6 +4,7 @@ import Layout from '../../components/Layout';
 import HabitResult from '../../components/HabitResult';
 import db, { getUser } from '../../../fire';
 import HabitSettings from './components/HabitSettings';
+import {findCategoryName} from '../../../utils';
 
 export default function MaintainHabits() {
   const [uncategorisedHabits, updateUncategorisedHabits] = useState([]);
@@ -49,18 +50,6 @@ export default function MaintainHabits() {
       });
   }, [updateCategories, uid]);
 
-  /**
-   * From the category id, returns either false if the category is not loaded or present, or the name of the category
-   * @param id
-   * @returns {boolean|*}
-   */
-  function findCategoryName (id) {
-    if (!categories?.length) return false;
-
-    const foundCategory = categories.find(cat => cat.id === id);
-    return foundCategory ? foundCategory.description : false;
-  }
-
   return (
     <Layout title="Maintain Habits" linkText="See dashboard" linkTo="/">
       <div className="flex justify-center">
@@ -68,7 +57,7 @@ export default function MaintainHabits() {
 
           {Object.keys(categorisedHabits).map(key => (
             <div key={key}>
-              {findCategoryName(key) ? <b>{findCategoryName(key)}</b> : ''}
+              {findCategoryName(categories, key) ? <b>{findCategoryName(categories, key)}</b> : ''}
               {categorisedHabits[key].map(habit => (
                 <HabitResult key={habit.id} habit={habit}/>
               ))}

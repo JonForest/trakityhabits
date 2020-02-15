@@ -190,3 +190,16 @@ export function getCurrentStreak(days) {
 
   return count;
 }
+
+  /**
+   * From the category id, returns either false if the category is not loaded or present, or the name of the category
+   * @param {Array} categories - array of category objects
+   * @param id
+   * @returns {boolean|*}
+   */
+  export function findCategoryName (categories, id) {
+    if (!categories?.length) return false;
+
+    const foundCategory = categories.find(cat => cat.id === id);
+    return foundCategory ? foundCategory.description : false;
+  }
