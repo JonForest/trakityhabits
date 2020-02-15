@@ -22,7 +22,7 @@ export default function Dashboard() {
         const days = [];
         querySnapshot.forEach(doc => {
           const data = doc.data();
-          
+
           const day = {
             date: data.date,
             totalHabits: data.habits.length,

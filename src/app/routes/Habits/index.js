@@ -19,8 +19,7 @@ export default function Habits() {
           const day = doc.data();
           // Note: used .some here as better supported than .find for IE; though honestly, it's a nasty looking hack
           day.habits.some(habit => {
-            if (habit.habit === habitId) {
-              //todo: change to habit.id
+            if (habit.id === habitId) {
               habit.achieved = isComplete;
               return true;
             } else return false;
@@ -44,7 +43,6 @@ export default function Habits() {
           // Note, should only ever be one doc
           const day = doc.data();
           const habits = day.habits.map(habit => ({
-            id: habit.habit, // todo: removed when changed to habit.id
             ...habit
           }));
           updateHabits(habits);
