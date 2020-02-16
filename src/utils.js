@@ -10,7 +10,6 @@ export default function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-
 export async function getHabitsForDay() {
   const { uid } = getUser();
   let selectedHabits = [];
@@ -22,25 +21,23 @@ export async function getHabitsForDay() {
     .where(`deleted`, `==`, false)
     .get();
 
-  const categoryPromise = db
-    .collection(`users/${uid}/categories`)
-    .get();
+  const categoryPromise = db.collection(`users/${uid}/categories`).get();
 
   const userPromise = db
     .collection('users')
     .doc(uid)
     .get();
 
-  const [ habitsQuery, categoryQuery, userDoc ] = await Promise.all([habitsPromise, categoryPromise, userPromise]);
+  const [habitsQuery, categoryQuery, userDoc] = await Promise.all([habitsPromise, categoryPromise, userPromise]);
 
   if (!userDoc.exists) return [];
 
   habitsQuery.forEach(doc => {
-    habits.push({id: doc.id, ...doc.data()});
+    habits.push({ id: doc.id, ...doc.data() });
   });
 
   categoryQuery.forEach(doc => {
-    categories.push({id: doc.id, ...doc.data()});
+    categories.push({ id: doc.id, ...doc.data() });
   });
 
   categories.forEach(cat => {
@@ -191,15 +188,15 @@ export function getCurrentStreak(days) {
   return count;
 }
 
-  /**
-   * From the category id, returns either false if the category is not loaded or present, or the name of the category
-   * @param {Array} categories - array of category objects
-   * @param id
-   * @returns {boolean|*}
-   */
-  export function findCategoryName (categories, id) {
-    if (!categories?.length) return false;
+/**
+ * From the category id, returns either false if the category is not loaded or present, or the name of the category
+ * @param {Array} categories - array of category objects
+ * @param id
+ * @returns {boolean|*}
+ */
+export function findCategoryName(categories, id) {
+  if (!categories?.length) return false;
 
-    const foundCategory = categories.find(cat => cat.id === id);
-    return foundCategory ? foundCategory.description : false;
-  }
+  const foundCategory = categories.find(cat => cat.id === id);
+  return foundCategory ? foundCategory.description : false;
+}

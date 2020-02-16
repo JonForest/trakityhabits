@@ -46,9 +46,33 @@ export default function Dashboard() {
         <div className="flex-grow-0 w-11/12 md:w-4/6 xl:w-1/6">
           Show last:
           <ul className="mb-4">
-            <li className="inline pr-4">{numbDays === 10 ? 10 : <button className="text-blue-600 underline" onClick={() => updateNumbDays(10)}>10</button>}</li>
-            <li className="inline pr-4">{numbDays === 20 ? 20 : <button className="text-blue-600 underline" onClick={() => updateNumbDays(20)}>20</button>}</li>
-            <li className="inline">{numbDays === 30 ? 30 : <button className="text-blue-600 underline" onClick={() => updateNumbDays(30)}>30</button>}</li>
+            <li className="inline pr-4">
+              {numbDays === 10 ? (
+                10
+              ) : (
+                <button className="text-blue-600 underline" onClick={() => updateNumbDays(10)}>
+                  10
+                </button>
+              )}
+            </li>
+            <li className="inline pr-4">
+              {numbDays === 20 ? (
+                20
+              ) : (
+                <button className="text-blue-600 underline" onClick={() => updateNumbDays(20)}>
+                  20
+                </button>
+              )}
+            </li>
+            <li className="inline">
+              {numbDays === 30 ? (
+                30
+              ) : (
+                <button className="text-blue-600 underline" onClick={() => updateNumbDays(30)}>
+                  30
+                </button>
+              )}
+            </li>
           </ul>
           {currentStreak !== undefined && <Progress currentStreak={currentStreak} longestStreak={longestStreak} />}
         </div>

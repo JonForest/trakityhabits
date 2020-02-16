@@ -12,9 +12,7 @@ export default function HabitResult({ category }) {
     <>
       <div className="flex mb-6 text-left">
         <div className="w-3/4">
-          <div className="font-bold">
-           {category.description}
-          </div>
+          <div className="font-bold">{category.description}</div>
         </div>
         <div className="flex-shrink-0 w-1/4 ml-3 text-right">
           <button

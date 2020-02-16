@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import db, { getUser } from '../../../../fire';
 
@@ -11,17 +11,15 @@ export default function HabitForm({ habit = false }) {
 
   // Fetch categories
   useEffect(() => {
-    return db
-      .collection(`users/${uid}/categories`)
-      .onSnapshot(querySnapshot => {
-        const categoriesArray = [];
-        querySnapshot.forEach(doc => {
-          categoriesArray.push({id: doc.id, ...doc.data()});
-        });
-
-        updateCategories(categoriesArray);
-        updateLoading(false);
+    return db.collection(`users/${uid}/categories`).onSnapshot(querySnapshot => {
+      const categoriesArray = [];
+      querySnapshot.forEach(doc => {
+        categoriesArray.push({ id: doc.id, ...doc.data() });
       });
+
+      updateCategories(categoriesArray);
+      updateLoading(false);
+    });
   }, [updateCategories, updateLoading, uid]);
 
   function saveHabit(e) {
@@ -29,7 +27,7 @@ export default function HabitForm({ habit = false }) {
     const {
       description: { value: description },
       detail: { value: detail },
-      category: {value: categoryId }
+      category: { value: categoryId }
     } = e.currentTarget.elements;
 
     if (!description || !description.trim()) {
@@ -101,20 +99,22 @@ export default function HabitForm({ habit = false }) {
         </div>
         <div className="w-full md:w-2/3">
           {/*Add a key value in so we render an entirely new select tag when the habit finally loads, otherwise the defaultValue is set when habit is false*/}
-          {!loading && <select
-            id="category"
-            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-            disabled={loading}
-            key={habit.categoryId}
-            defaultValue={habit ? habit.categoryId : '-1'}
-          >
-            <option value="-1">No category</option>
-            {categories.map(category => (
-              <option key={category.id} value={category.id}>
-                {category.description}
-              </option>
-            ))}
-          </select>}
+          {!loading && (
+            <select
+              id="category"
+              className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+              disabled={loading}
+              key={habit.categoryId}
+              defaultValue={habit ? habit.categoryId : '-1'}
+            >
+              <option value="-1">No category</option>
+              {categories.map(category => (
+                <option key={category.id} value={category.id}>
+                  {category.description}
+                </option>
+              ))}
+            </select>
+          )}
         </div>
       </div>
       <button

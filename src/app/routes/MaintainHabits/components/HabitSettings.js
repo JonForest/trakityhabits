@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import db, { getUser } from '../../../../fire';
 
-export default function HabitSettings({categoryId = null}) {
+export default function HabitSettings({ categoryId = null }) {
   const { uid } = getUser();
   const [numbHabits, setNumberHabits] = useState(3);
   const ref = useMemo(() => {
-    return categoryId ? db.collection(`users/${uid}/categories`).doc(categoryId) : db.collection(`users`).doc(uid)
+    return categoryId ? db.collection(`users/${uid}/categories`).doc(categoryId) : db.collection(`users`).doc(uid);
   }, [categoryId, uid]);
 
   useEffect(() => {

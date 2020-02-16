@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import db, { getUser } from '../../../fire';
 import Habit from '../../components/Habit';
 import Header from '../../components/Header';
-import {findCategoryName} from '../../../utils';
+import { findCategoryName } from '../../../utils';
 
 export default function Habits() {
   const { uid } = getUser();
@@ -54,24 +54,22 @@ export default function Habits() {
             } else {
               uncategorisedHabitsArray.push(habit);
             }
-          })
+          });
           updateUncategorisedHabits(uncategorisedHabitsArray);
           updateCategorisedHabits(habitsObj);
         });
       });
   }, [updateUncategorisedHabits, updateCategorisedHabits, date, uid]);
 
-    // Fetch categories
+  // Fetch categories
   useEffect(() => {
-    return db
-      .collection(`users/${uid}/categories`)
-      .onSnapshot(querySnapshot => {
-        const categoriesArray = [];
-        querySnapshot.forEach(doc => {
-          categoriesArray.push({id: doc.id, ...doc.data()});
-        });
-        updateCategories(categoriesArray);
+    return db.collection(`users/${uid}/categories`).onSnapshot(querySnapshot => {
+      const categoriesArray = [];
+      querySnapshot.forEach(doc => {
+        categoriesArray.push({ id: doc.id, ...doc.data() });
       });
+      updateCategories(categoriesArray);
+    });
   }, [updateCategories, uid]);
 
   return (
@@ -85,9 +83,9 @@ export default function Habits() {
             <div key={key}>
               {findCategoryName(categories, key) ? <b>{findCategoryName(categories, key)}</b> : ''}
               {categorisedHabits[key].map(habit => (
-              <div key={habit.id + habit.achieved} className="mb-12 last:mb-6">
-                <Habit habit={habit} completeHabit={updateHabit} />
-              </div>
+                <div key={habit.id + habit.achieved} className="mb-12 last:mb-6">
+                  <Habit habit={habit} completeHabit={updateHabit} />
+                </div>
               ))}
             </div>
           ))}

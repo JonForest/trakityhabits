@@ -8,15 +8,13 @@ export default function MaintainCategories() {
   const { uid } = getUser();
 
   useEffect(() => {
-    const unsubscribe = db
-      .collection(`users/${uid}/categories`)
-      .onSnapshot(querySnapshot => {
-        const categoriesArray = [];
-        querySnapshot.forEach(doc => {
-          categoriesArray.push(({ id: doc.id, ...doc.data() }));
-        })
-        updateCategories(categoriesArray);
+    const unsubscribe = db.collection(`users/${uid}/categories`).onSnapshot(querySnapshot => {
+      const categoriesArray = [];
+      querySnapshot.forEach(doc => {
+        categoriesArray.push({ id: doc.id, ...doc.data() });
       });
+      updateCategories(categoriesArray);
+    });
     return unsubscribe;
   }, [updateCategories, uid]);
 
@@ -26,9 +24,8 @@ export default function MaintainCategories() {
    * @returns {boolean}
    */
   function addCategory(e) {
-
     e.preventDefault();
-   let {
+    let {
       newCategory: { value: newCategory }
     } = e.currentTarget.elements;
 
@@ -52,7 +49,6 @@ export default function MaintainCategories() {
     <Layout title="Maintain Categories" linkText="See dashboard" linkTo="/">
       <div className="flex justify-center">
         <div className="flex max-w-lg flex-col px-4 w-11/12 md:w-4/6 xl:w-2/6">
-
           {categories.map(category => (
             <CategoryResult key={category.id} category={category} />
           ))}
@@ -62,14 +58,14 @@ export default function MaintainCategories() {
               <input type="text" className="border" id="newCategory" />
             </div>
             <div className="w-4/12">
-              <button type="submit"
+              <button
+                type="submit"
                 className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 my-1 px-4 rounded h-10"
               >
                 Add Category
               </button>
             </div>
           </form>
-
         </div>
       </div>
     </Layout>
