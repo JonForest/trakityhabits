@@ -18,18 +18,22 @@ export default function HabitSettings({ categoryId = null }) {
 
   function saveNumbHabits(e) {
     e.preventDefault();
-    const val = parseInt(e.currentTarget.value);
-    if (val > 10) {
+    let val = parseInt(e.currentTarget.value, 10);
+
+    if (Number.isNaN(val)) {
+      e.currentTarget.value = 0;
+      val = 0;
+    } else if (val > 10) {
       e.currentTarget.value = 10;
-      return;
+      val = 10;
     }
-    ref.set({ numbHabits: val });
+    ref.update({ numbHabits: val });
   }
 
   // Need this function to handle the onChange event, which we need if we use the "value" attr in the input
   function habitChange(e) {
     e.preventDefault();
-    setNumberHabits(Number(e.currentTarget.value));
+    setNumberHabits(e.currentTarget.value);
   }
 
   return (

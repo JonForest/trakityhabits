@@ -63,11 +63,17 @@ export default function MaintainHabits() {
             </div>
           ))}
 
-          {uncategorisedHabits?.length && <b>Uncategorised Habits</b>}
-          {uncategorisedHabits.map(habit => (
-            <HabitResult key={habit.id} habit={habit} />
-          ))}
-          <HabitSettings />
+          {uncategorisedHabits?.length ? (
+            <>
+              <b>Uncategorised Habits</b>
+              {uncategorisedHabits.map(habit => (
+                <HabitResult key={habit.id} habit={habit} />
+              ))}
+              <HabitSettings />)
+            </>
+          ) : (
+            ''
+          )}
 
           <Link to="/maintain/add">Add a new Habit</Link>
         </div>
