@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import CategoryResult from '../../components/CategoryResult';
 import db, { getUser } from '../../../fire';
+import { DEFAULTS } from '../../../constants';
 
 export default function MaintainCategories() {
   const [categories, updateCategories] = useState([]);
@@ -36,7 +37,8 @@ export default function MaintainCategories() {
     }
 
     const catObj = {
-      description: newCategory
+      description: newCategory,
+      numbHabits: DEFAULTS.EXERCISES_IN_CATEGORY
     };
 
     db.collection(`users/${uid}/categories`).add(catObj);

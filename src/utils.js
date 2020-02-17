@@ -1,4 +1,5 @@
 import db, { getUser } from './fire';
+import { DEFAULTS } from './constants';
 
 export function getFormattedDate(dateObj) {
   return `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1 + '').padStart(2, '0')}-${(
@@ -42,10 +43,12 @@ export async function getHabitsForDay() {
 
   categories.forEach(cat => {
     const catHabits = habits.filter(habit => habit.categoryId === cat.id);
-    selectedHabits = selectedHabits.concat(pickRandomHabits(catHabits, cat.numbHabits));
+    selectedHabits = selectedHabits.concat(
+      pickRandomHabits(catHabits, cat.numbHabits ?? DEFAULTS.EXERCISES_IN_CATEGORY)
+    );
   });
 
-  const uncategorisedCount = userDoc.data().numbHabits ?? 3;
+  const uncategorisedCount = userDoc.data().numbHabits ?? DEFAULTS.EXERCISES_IN_CATEGORY;
   const uncatHabits = habits.filter(habit => !habit.categoryId);
   selectedHabits = selectedHabits.concat(pickRandomHabits(uncatHabits, uncategorisedCount));
 
@@ -121,6 +124,7 @@ export async function addMissingDays(days) {
     const batch = db.batch();
     daysToGenerate.forEach(day => {
       const dayRef = db.collection(`users/${uid}/days`).doc();
+      console.log('day added: ', dayRef.id);
       batch.set(dayRef, day);
     });
     await batch.commit();
