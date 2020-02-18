@@ -89,12 +89,18 @@ export default function Habits() {
               ))}
             </div>
           ))}
-          {uncategorisedHabits?.length && <b>Uncategorised Habits</b>}
-          {uncategorisedHabits.map(habit => (
-            <div key={habit.id + habit.achieved} className="mb-12 last:mb-6">
-              <Habit habit={habit} completeHabit={updateHabit} />
-            </div>
-          ))}
+          {uncategorisedHabits?.length ? (
+            <>
+              <b>Uncategorised Habits</b>}
+              {uncategorisedHabits.map(habit => (
+                <div key={habit.id + habit.achieved} className="mb-12 last:mb-6">
+                  <Habit habit={habit} completeHabit={updateHabit} />
+                </div>
+              ))}
+            </>
+          ) : (
+            ''
+          )}
         </div>
       </div>
       <footer className="w-100 bg-teal-700 flex-shrink-0 flex justify-center py-2">

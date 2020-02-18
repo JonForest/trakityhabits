@@ -2,6 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import db, { getUser } from '../../../../fire';
 
+const week = [
+  { label: 'M', id: 'monday' },
+  { label: 'T', id: 'tuesday' },
+  { label: 'W', id: 'wednesday' },
+  { label: 'T', id: 'thursday' },
+  { label: 'F', id: 'friday' },
+  { label: 'S', id: 'saturday' },
+  { label: 'S', id: 'sunday' }
+];
+
 export default function HabitForm({ habit = false }) {
   const history = useHistory();
   const [required, updateRequired] = useState(false);
@@ -93,7 +103,7 @@ export default function HabitForm({ habit = false }) {
       </div>
       <div className="flex flex-col items-start md:flex-row md:items-center mb-6">
         <div className="md:w-1/3">
-          <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+          <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="category">
             Category
           </label>
         </div>
@@ -115,6 +125,32 @@ export default function HabitForm({ habit = false }) {
               ))}
             </select>
           )}
+        </div>
+        {/*  Repeating code in here (as in, offer up on these days */}
+        {/*  Always show*/}
+      </div>
+      <div className="flex flex-col items-start md:flex-row md:items-center mb-6">
+        <div className="md:w-1/3 inline-block">
+          <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="always_include">
+            Always include habit
+          </label>
+        </div>
+        <div className="w-full md:w-2/3 inline-block">
+          <input id="always_include" type="checkbox" defaultChecked={habit.alwaysInclude} />
+        </div>
+      </div>
+      <div className="flex flex-col items-start md:flex-row md:items-center mb-6">
+        <div className="md:w-1/3">
+          <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">Days</label>
+        </div>
+        <div className="w-full md:w-2/3 inline-block">
+          {week.map((day, i) => (
+            <div key={i} className={`inline-block ${i !== 0 ? 'ml-4' : ''}`}>
+              <label htmlFor={day.id}>{day.label}</label>
+              <br />
+              <input id={day.id} type="checkbox" defaultValue={habit.days && habit.days[i]} />
+            </div>
+          ))}
         </div>
       </div>
       <button
