@@ -45,10 +45,22 @@ export default function HabitForm({ habit = false }) {
       return false;
     }
 
+    // days are a 0 based array from Monday
+    const days = [
+      e.currentTarget.elements.monday.checked,
+      e.currentTarget.elements.tuesday.checked,
+      e.currentTarget.elements.wednesday.checked,
+      e.currentTarget.elements.thursday.checked,
+      e.currentTarget.elements.friday.checked,
+      e.currentTarget.elements.saturday.checked,
+      e.currentTarget.elements.sunday.checked,
+    ]
+
     const newHabit = {
       description,
       detail,
       categoryId: categoryId === -1 ? null : categoryId,
+      days,
       deleted: false
     };
 
@@ -144,11 +156,11 @@ export default function HabitForm({ habit = false }) {
           <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">Days</label>
         </div>
         <div className="w-full md:w-2/3 inline-block">
-          {week.map((day, i) => (
+          {!loading && habit && week.map((day, i) => (
             <div key={i} className={`inline-block ${i !== 0 ? 'ml-4' : ''}`}>
               <label htmlFor={day.id}>{day.label}</label>
               <br />
-              <input id={day.id} type="checkbox" defaultValue={habit.days && habit.days[i]} />
+              <input id={day.id} type="checkbox" defaultChecked={!habit.days || habit.days[i]} />
             </div>
           ))}
         </div>
