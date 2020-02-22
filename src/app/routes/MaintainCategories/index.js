@@ -59,10 +59,10 @@ export default function MaintainCategories() {
             <div className="w-8/12">
               <input type="text" className="border" id="newCategory" />
             </div>
-            <div className="w-4/12">
+            <div className="w-4/12 text-right">
               <button
                 type="submit"
-                className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 my-1 px-4 rounded h-10"
+                className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 my-1 px-4 rounded"
               >
                 Add Category
               </button>
