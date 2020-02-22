@@ -63,8 +63,11 @@ export async function getHabitsForDay() {
  * @returns {[]}
  */
 function pickRandomHabits(habits, numbHabits) {
-  const workingHabits = [...habits];
-  const loopAmount = numbHabits > habits.length ? habits.length : numbHabits;
+  let temp;
+  const dayIndex = (temp = (new Date()).getDay() - 1) === -1 ? 6 : temp
+  // Take all habits that are valid for today (either don't specify valid days, or do specify and today is valid)
+  const workingHabits = habits.filter(habit => !habit.days || habit.days[dayIndex]);
+  const loopAmount = numbHabits > workingHabits.length ? workingHabits.length : numbHabits;
   const selectedHabits = [];
 
   for (let x = 0; x < loopAmount; x++) {
