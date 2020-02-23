@@ -37,7 +37,8 @@ export default function HabitForm({ habit = false }) {
     const {
       description: { value: description },
       detail: { value: detail },
-      category: { value: categoryId }
+      category: { value: categoryId },
+      alwaysInclude: { checked: alwaysInclude }
     } = e.currentTarget.elements;
 
     if (!description || !description.trim()) {
@@ -53,14 +54,15 @@ export default function HabitForm({ habit = false }) {
       e.currentTarget.elements.thursday.checked,
       e.currentTarget.elements.friday.checked,
       e.currentTarget.elements.saturday.checked,
-      e.currentTarget.elements.sunday.checked,
-    ]
+      e.currentTarget.elements.sunday.checked
+    ];
 
     const newHabit = {
       description,
       detail,
       categoryId: categoryId === -1 ? null : categoryId,
       days,
+      alwaysInclude,
       deleted: false
     };
 
@@ -143,12 +145,12 @@ export default function HabitForm({ habit = false }) {
       </div>
       <div className="flex flex-col items-start md:flex-row md:items-center mb-6">
         <div className="md:w-1/3 inline-block">
-          <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="always_include">
+          <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="alwaysInclude">
             Always include habit
           </label>
         </div>
         <div className="w-full md:w-2/3 inline-block">
-          <input id="always_include" type="checkbox" defaultChecked={habit.alwaysInclude} />
+          <input id="alwaysInclude" type="checkbox" defaultChecked={habit.alwaysInclude} />
         </div>
       </div>
       <div className="flex flex-col items-start md:flex-row md:items-center mb-6">
@@ -156,13 +158,15 @@ export default function HabitForm({ habit = false }) {
           <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">Days</label>
         </div>
         <div className="w-full md:w-2/3 inline-block">
-          {!loading && habit && week.map((day, i) => (
-            <div key={i} className={`inline-block ${i !== 0 ? 'ml-4' : ''}`}>
-              <label htmlFor={day.id}>{day.label}</label>
-              <br />
-              <input id={day.id} type="checkbox" defaultChecked={!habit.days || habit.days[i]} />
-            </div>
-          ))}
+          {!loading &&
+            habit &&
+            week.map((day, i) => (
+              <div key={i} className={`inline-block ${i !== 0 ? 'ml-4' : ''}`}>
+                <label htmlFor={day.id}>{day.label}</label>
+                <br />
+                <input id={day.id} type="checkbox" defaultChecked={!habit.days || habit.days[i]} />
+              </div>
+            ))}
         </div>
       </div>
       <button
