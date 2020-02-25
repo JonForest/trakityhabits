@@ -159,12 +159,11 @@ export default function HabitForm({ habit = false }) {
         </div>
         <div className="w-full md:w-2/3 inline-block">
           {!loading &&
-            habit &&
             week.map((day, i) => (
               <div key={i} className={`inline-block ${i !== 0 ? 'ml-4' : ''}`}>
                 <label htmlFor={day.id}>{day.label}</label>
                 <br />
-                <input id={day.id} type="checkbox" defaultChecked={!habit.days || habit.days[i]} />
+                <input key={habit.id} id={day.id} type="checkbox" defaultChecked={!habit?.days || habit.days[i]} />
               </div>
             ))}
         </div>

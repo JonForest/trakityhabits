@@ -66,10 +66,19 @@ function pickRandomHabits(habits, numbHabits) {
   let temp;
   const dayIndex = (temp = new Date().getDay() - 1) === -1 ? 6 : temp;
   // Take all habits that are valid for today (either don't specify valid days, or do specify and today is valid)
-  const workingHabits = habits.filter(habit => !habit.days || habit.days[dayIndex]);
-  const loopAmount = numbHabits > workingHabits.length ? workingHabits.length : numbHabits;
-  const selectedHabits = [];
+  let workingHabits = habits.filter(habit => !habit.days || habit.days[dayIndex]);
 
+  // Extra all the habits that must be done
+  const requiredHabits = workingHabits.filter(habit => habit.alwaysInclude);
+  // Remove these elements from the workingHabits array
+  workingHabits = workingHabits.filter(habit => !habit.alwaysInclude);
+
+  // Want to loop only the workingHabits, while leaving enough space for the required habits
+  // eg. if numbHabits = 3, and there is 1 required habit, loop twice to pick up workingHabits
+  let loopAmount = (temp = numbHabits - requiredHabits.length) >= 0 ? temp : 0;
+  loopAmount = loopAmount > workingHabits.length ? workingHabits.length : loopAmount;
+
+  let selectedHabits = [];
   for (let x = 0; x < loopAmount; x++) {
     const index = getRandomInt(workingHabits.length);
     selectedHabits.push({
@@ -79,6 +88,8 @@ function pickRandomHabits(habits, numbHabits) {
     // Remove selected element from the array
     workingHabits.splice(index, 1);
   }
+
+  selectedHabits = [...selectedHabits, ...requiredHabits.map(habit => ({ ...habit, achieved: false }))];
 
   return selectedHabits;
 }
